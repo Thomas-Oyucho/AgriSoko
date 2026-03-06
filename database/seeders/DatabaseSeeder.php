@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use Database\Seeders\ProduceCategorySeeder;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -24,5 +25,8 @@ class DatabaseSeeder extends Seeder
 
         // give the seeded user full admin access
         $user->admin()->create();
+
+        // predefined produce categories for farmers
+        $this->call(ProduceCategorySeeder::class);
     }
 }

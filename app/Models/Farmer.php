@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Produce;
 
 class Farmer extends Model
 {
@@ -18,5 +19,10 @@ class Farmer extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function produce()
+    {
+        return $this->hasMany(Produce::class);
     }
 }

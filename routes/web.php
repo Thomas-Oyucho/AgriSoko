@@ -52,4 +52,12 @@ Route::get('admin/dashboard', function () {
     return Inertia::render('AdminDashboard');
 })->middleware(['auth', 'verified'])->name('admin.dashboard');
 
+// farmer produce management
+Route::middleware(['auth', 'verified'])
+    ->prefix('farmer')
+    ->name('farmer.')
+    ->group(function () {
+        Route::resource('produce', \App\Http\Controllers\ProduceController::class);
+    });
+
 require __DIR__.'/settings.php';

@@ -6,13 +6,23 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/app-layout';
 import type { Produce, ProduceCategory } from '@/types/produce';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 
 interface Props {
     produce?: Produce | null;
     categories: ProduceCategory[];
 }
 
-export default function FarmerProduceForm({ produce = null, categories }: Props) {
+export default function FarmerProduceForm({
+    produce = null,
+    categories,
+}: Props) {
     const editing = Boolean(produce);
     const form = useForm({
         name: produce?.name || '',
@@ -36,7 +46,7 @@ export default function FarmerProduceForm({ produce = null, categories }: Props)
         <AppLayout>
             <Head title={editing ? 'Edit produce' : 'New produce'} />
             <div className="max-w-xl p-4">
-                <h1 className="text-2xl font-bold mb-4">
+                <h1 className="mb-4 text-2xl font-bold">
                     {editing ? 'Edit produce' : 'List new produce'}
                 </h1>
                 <form onSubmit={submit} className="space-y-4">
@@ -46,30 +56,38 @@ export default function FarmerProduceForm({ produce = null, categories }: Props)
                             id="name"
                             type="text"
                             value={form.data.name}
-                            onChange={(e) => form.setData('name', e.target.value)}
+                            onChange={(e) =>
+                                form.setData('name', e.target.value)
+                            }
                             required
                         />
                         <InputError message={form.errors.name} />
                     </div>
-
                     <div className="grid gap-2">
-                        <Label htmlFor="category_id">Category</Label>
-                        <select
-                            id="category_id"
-                            value={form.data.category_id}
-                            onChange={(e) =>
-                                form.setData('category_id', e.target.value)
+                        <Label>Category</Label>
+
+                        <Select
+                            value={form.data.category_id?.toString()}
+                            onValueChange={(value) =>
+                                form.setData('category_id', value)
                             }
-                            className="block w-full border rounded p-2"
-                            required
                         >
-                            <option value="">-- choose --</option>
-                            {categories.map((c) => (
-                                <option key={c.id} value={c.id}>
-                                    {c.category_name}
-                                </option>
-                            ))}
-                        </select>
+                            <SelectTrigger>
+                                <SelectValue placeholder="Choose plant category" />
+                            </SelectTrigger>
+
+                            <SelectContent>
+                                {categories.map((c) => (
+                                    <SelectItem
+                                        key={c.id}
+                                        value={c.id.toString()}
+                                    >
+                                        {c.category_name}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+
                         <InputError message={form.errors.category_id} />
                     </div>
 
@@ -97,7 +115,10 @@ export default function FarmerProduceForm({ produce = null, categories }: Props)
                             type="number"
                             value={form.data.quantity_available}
                             onChange={(e) =>
-                                form.setData('quantity_available', e.target.value)
+                                form.setData(
+                                    'quantity_available',
+                                    e.target.value,
+                                )
                             }
                             required
                         />

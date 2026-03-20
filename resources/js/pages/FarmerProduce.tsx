@@ -11,6 +11,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { router } from '@inertiajs/react';
 
 export default function FarmerProduce() {
     const { produce } = usePage<{ produce: Produce[] }>().props;
@@ -19,14 +20,14 @@ export default function FarmerProduce() {
     return (
         <AppLayout>
             <Head title="My Produce" />
-            <div className="flex justify-between items-center mb-4 p-4">
+            <div className="mb-4 flex items-center justify-between p-4">
                 <h1 className="text-2xl font-bold">My Produce</h1>
                 <Link href="/farmer/produce/create">
                     <Button>Create new</Button>
                 </Link>
             </div>
             {produce.length === 0 ? (
-                <p className='p-4'>No produce listed yet.</p>
+                <p className="p-4">No produce listed yet.</p>
             ) : (
                 <Table>
                     <TableHeader>
@@ -42,40 +43,42 @@ export default function FarmerProduce() {
                         {produce.map((item) => (
                             <TableRow key={item.id}>
                                 <TableCell>{item.name}</TableCell>
-                                <TableCell>{item.category.category_name}</TableCell>
-                                <TableCell>${item.price}</TableCell>
+                                <TableCell>
+                                    {item.category.category_name}
+                                </TableCell>
+                                <TableCell>KES{item.price}</TableCell>
                                 <TableCell>{item.quantity_available}</TableCell>
                                 <TableCell>
                                     <div className="space-x-2">
-                                        <Link href={`/farmer/produce/${item.id}`}>
-                                            <Button size="sm" variant="outline">View</Button>
+                                        <Link
+                                            href={`/farmer/produce/${item.id}`}
+                                        >
+                                            <Button size="sm" variant="outline">
+                                                View
+                                            </Button>
                                         </Link>
-                                        <Link href={`/farmer/produce/${item.id}/edit`}>
+                                        <Link
+                                            href={`/farmer/produce/${item.id}/edit`}
+                                        >
                                             <Button size="sm">Edit</Button>
                                         </Link>
-                                        <form
-                                            method="post"
-                                            action={`/farmer/produce/${item.id}`}
-                                            className="inline"
+                                        <Button
+                                            size="sm"
+                                            variant="destructive"
+                                            onClick={() => {
+                                                if (
+                                                    confirm(
+                                                        'Are you sure you want to delete this item?',
+                                                    )
+                                                ) {
+                                                    router.delete(
+                                                        `/farmer/produce/${item.id}`,
+                                                    );
+                                                }
+                                            }}
                                         >
-                                            <input
-                                                type="hidden"
-                                                name="_method"
-                                                value="delete"
-                                            />
-                                            <input
-                                                type="hidden"
-                                                name="_token"
-                                                value={csrf}
-                                            />
-                                            <Button
-                                                size="sm"
-                                                variant="destructive"
-                                                type="submit"
-                                            >
-                                                Delete
-                                            </Button>
-                                        </form>
+                                            Delete
+                                        </Button>
                                     </div>
                                 </TableCell>
                             </TableRow>

@@ -1,4 +1,3 @@
-import AppLayout from '@/layouts/app-layout';
 import { Head, Link, usePage } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
 import {
@@ -9,6 +8,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import AppLayout from '@/layouts/app-layout';
 
 interface Produce {
     id: number;

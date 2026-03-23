@@ -11,26 +11,30 @@ interface FlashProps {
 export default function FlashMessages() {
     const { flash } = usePage().props as unknown as { flash: FlashProps };
     const [isVisible, setIsVisible] = useState(false);
-    const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
+    const [prevFlash, setPrevFlash] = useState<FlashProps>(flash);
+
+    if (flash.success !== prevFlash.success || flash.error !== prevFlash.error) {
+        setPrevFlash(flash);
+        setIsVisible(true);
+    }
 
     useEffect(() => {
-        if (flash.success) {
-            setMessage({ type: 'success', text: flash.success });
-            setIsVisible(true);
-        } else if (flash.error) {
-            setMessage({ type: 'error', text: flash.error });
-            setIsVisible(true);
-        }
-    }, [flash.success, flash.error]);
-
-    useEffect(() => {
+        let timer: ReturnType<typeof setTimeout>;
         if (isVisible) {
-            const timer = setTimeout(() => {
+            timer = setTimeout(() => {
                 setIsVisible(false);
             }, 5000);
-            return () => clearTimeout(timer);
         }
+        return () => {
+            if (timer) clearTimeout(timer);
+        };
     }, [isVisible]);
+
+    const message = flash.success
+        ? { type: 'success' as const, text: flash.success }
+        : flash.error
+          ? { type: 'error' as const, text: flash.error }
+          : null;
 
     if (!isVisible || !message) return null;
 

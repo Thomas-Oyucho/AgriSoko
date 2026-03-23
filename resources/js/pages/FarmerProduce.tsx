@@ -1,7 +1,6 @@
 import { Head, Link, usePage } from '@inertiajs/react';
+import { router } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
-import AppLayout from '@/layouts/app-layout';
-import type { Produce } from '@/types/produce';
 import {
     Table,
     TableBody,
@@ -10,7 +9,8 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-import { router } from '@inertiajs/react';
+import AppLayout from '@/layouts/app-layout';
+import type { Produce } from '@/types/produce';
 
 export default function FarmerProduce() {
     const { produce } = usePage<{ produce: Produce[] }>().props;

@@ -13,8 +13,8 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import type { NavItem } from '@/types';
+import type { Auth } from '@/types';
 import AppLogo from './app-logo';
-import { Auth } from '@/types';
 
 function useNavItems() {
     const { auth } = usePage().props as unknown as { auth: Auth };

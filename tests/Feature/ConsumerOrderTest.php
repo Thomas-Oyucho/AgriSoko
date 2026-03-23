@@ -85,7 +85,7 @@ class ConsumerOrderTest extends TestCase
                 'quantity' => 4,
             ]);
 
-        $response->assertRedirect();
+        $response->assertRedirect(route('consumer.orders.index'));
         $response->assertSessionHas('success', 'Order placed successfully!');
 
         $this->assertDatabaseHas('orders', [
@@ -124,5 +124,45 @@ class ConsumerOrderTest extends TestCase
             ]);
 
         $response->assertStatus(403);
+    }
+
+    public function test_consumer_can_view_their_orders()
+    {
+        Order::create([
+            'consumer_id' => $this->consumer->id,
+            'produce_id' => $this->produce->id,
+            'quantity' => 2,
+            'unit_price' => 2.50,
+            'total_price' => 5.00,
+        ]);
+
+        $response = $this->actingAs($this->consumerUser)
+            ->get(route('consumer.orders.index'));
+
+        $response->assertStatus(200);
+        $response->assertInertia(fn ($page) => $page
+            ->component('ConsumerOrders')
+            ->has('orders', 1)
+        );
+    }
+
+    public function test_farmer_can_view_orders_for_their_produce()
+    {
+        Order::create([
+            'consumer_id' => $this->consumer->id,
+            'produce_id' => $this->produce->id,
+            'quantity' => 2,
+            'unit_price' => 2.50,
+            'total_price' => 5.00,
+        ]);
+
+        $response = $this->actingAs($this->farmerUser)
+            ->get(route('farmer.orders.index'));
+
+        $response->assertStatus(200);
+        $response->assertInertia(fn ($page) => $page
+            ->component('FarmerOrders')
+            ->has('orders', 1)
+        );
     }
 }

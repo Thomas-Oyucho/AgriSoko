@@ -1,7 +1,7 @@
 import { usePage } from '@inertiajs/react';
+import { CheckCircle2, XCircle, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { CheckCircle2, XCircle, X } from 'lucide-react';
 
 interface FlashProps {
     success: string | null;

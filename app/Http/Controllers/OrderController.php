@@ -7,9 +7,55 @@ use App\Models\Produce;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Inertia\Inertia;
 
 class OrderController extends Controller
 {
+    /**
+     * Display a listing of orders for the authenticated consumer.
+     */
+    public function consumerIndex()
+    {
+        $consumer = Auth::user()->consumer;
+        if (! $consumer) {
+            abort(403, 'Not a consumer');
+        }
+
+        $orders = Order::where('consumer_id', $consumer->id)
+            ->with(['produce.farmer.user', 'produce.category'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return Inertia::render('ConsumerOrders', [
+            'orders' => $orders,
+        ]);
+    }
+
+    /**
+     * Display a listing of orders received by the authenticated farmer.
+     */
+    public function farmerIndex()
+    {
+        $farmer = Auth::user()->farmer;
+        if (! $farmer) {
+            abort(403, 'Not a farmer');
+        }
+
+        $orders = Order::whereHas('produce', function ($query) use ($farmer) {
+            $query->where('farmer_id', $farmer->id);
+        })
+            ->with(['produce.category', 'consumer.user'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return Inertia::render('FarmerOrders', [
+            'orders' => $orders,
+        ]);
+    }
+
+    /**
+     * Store a new order for a consumer.
+     */
     public function store(Request $request)
     {
         $consumer = Auth::user()->consumer;
@@ -42,6 +88,6 @@ class OrderController extends Controller
             $produce->decrement('quantity_available', $request->quantity);
         });
 
-        return to_route('consumer.dashboard')->with('success', 'Order placed successfully!');
+        return to_route('consumer.orders.index')->with('success', 'Order placed successfully!');
     }
 }

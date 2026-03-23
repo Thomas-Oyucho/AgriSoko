@@ -1,5 +1,5 @@
 import { Link, usePage } from '@inertiajs/react';
-import { Folder, LayoutGrid } from 'lucide-react';
+import { Folder, LayoutGrid, ShoppingCart } from 'lucide-react';
 
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
@@ -33,6 +33,11 @@ function useNavItems() {
             href: '/farmer/produce',
             icon: Folder,
         });
+        items.push({
+            title: 'Orders',
+            href: '/farmer/orders',
+            icon: ShoppingCart,
+        });
     }
 
     if (auth?.user?.is_consumer) {
@@ -40,6 +45,11 @@ function useNavItems() {
             title: 'Produces',
             href: '/consumer/produce',
             icon: Folder,
+        });
+        items.push({
+            title: 'Orders',
+            href: '/consumer/orders',
+            icon: ShoppingCart,
         });
     }
 

@@ -1,5 +1,5 @@
-import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
+import { Link, usePage } from '@inertiajs/react';
+import { Folder, LayoutGrid } from 'lucide-react';
 
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
@@ -14,12 +14,11 @@ import {
 } from '@/components/ui/sidebar';
 import type { NavItem } from '@/types';
 import AppLogo from './app-logo';
+import { Auth } from '@/types';
 
-import { usePage } from '@inertiajs/react';
+function useNavItems() {
+    const { auth } = usePage().props as unknown as { auth: Auth };
 
-const mainNavItems: NavItem[] = [];
-
-function buildNavItems() {
     const items: NavItem[] = [
         {
             title: 'Dashboard',
@@ -28,7 +27,6 @@ function buildNavItems() {
         },
     ];
 
-    const { auth } = usePage().props as any;
     if (auth?.user?.is_farmer) {
         items.push({
             title: 'Produce',
@@ -50,6 +48,8 @@ function buildNavItems() {
 
 
 export function AppSidebar() {
+    const navItems = useNavItems();
+
     return (
         <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader>
@@ -65,7 +65,7 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
-                <NavMain items={buildNavItems()} />
+                <NavMain items={navItems} />
             </SidebarContent>
 
             <SidebarFooter>

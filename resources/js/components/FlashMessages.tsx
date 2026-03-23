@@ -3,8 +3,13 @@ import { useEffect, useState } from 'react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { CheckCircle2, XCircle, X } from 'lucide-react';
 
+interface FlashProps {
+    success: string | null;
+    error: string | null;
+}
+
 export default function FlashMessages() {
-    const { flash } = usePage().props as any;
+    const { flash } = usePage().props as unknown as { flash: FlashProps };
     const [isVisible, setIsVisible] = useState(false);
     const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
 
@@ -16,7 +21,7 @@ export default function FlashMessages() {
             setMessage({ type: 'error', text: flash.error });
             setIsVisible(true);
         }
-    }, [flash]);
+    }, [flash.success, flash.error]);
 
     useEffect(() => {
         if (isVisible) {

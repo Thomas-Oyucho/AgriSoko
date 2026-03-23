@@ -16,7 +16,6 @@ type Props = {
 
 export default function Login({
     status,
-    canResetPassword,
     canRegister,
 }: Props) {
     return (

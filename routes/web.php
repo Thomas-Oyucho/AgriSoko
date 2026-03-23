@@ -58,6 +58,20 @@ Route::middleware(['auth', 'verified'])
     ->name('farmer.')
     ->group(function () {
         Route::resource('produce', \App\Http\Controllers\ProduceController::class);
+        Route::get('/orders', [\App\Http\Controllers\OrderController::class, 'farmerIndex'])->name('orders.index');
+    });
+
+// consumer produce and ordering
+Route::middleware(['auth', 'verified'])
+    ->prefix('consumer')
+    ->name('consumer.')
+    ->group(function () {
+        Route::get('/produce', [\App\Http\Controllers\ConsumerProduceController::class, 'index'])->name('produce.index');
+        Route::get('/produce/{produce}', [\App\Http\Controllers\ConsumerProduceController::class, 'show'])->name('produce.show');
+        Route::get('/orders', [\App\Http\Controllers\OrderController::class, 'consumerIndex'])->name('orders.index');
+        Route::post('/orders', [\App\Http\Controllers\OrderController::class, 'store'])->name('orders.store');
+        Route::patch('/orders/{order}', [\App\Http\Controllers\OrderController::class, 'update'])->name('orders.update');
+        Route::delete('/orders/{order}', [\App\Http\Controllers\OrderController::class, 'destroy'])->name('orders.destroy');
     });
 
 require __DIR__.'/settings.php';

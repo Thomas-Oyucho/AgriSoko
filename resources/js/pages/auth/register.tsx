@@ -1,8 +1,8 @@
 import { Head } from '@inertiajs/react';
-import { Button } from '@/components/ui/button';
-import AuthLayout from '@/layouts/auth-layout';
 import { Link } from '@inertiajs/react';
 import TextLink from '@/components/text-link';
+import { Button } from '@/components/ui/button';
+import AuthLayout from '@/layouts/auth-layout';
 
 export default function Register() {
     return (

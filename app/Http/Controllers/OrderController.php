@@ -90,4 +90,57 @@ class OrderController extends Controller
 
         return to_route('consumer.orders.index')->with('success', 'Order placed successfully!');
     }
+
+    /**
+     * Update an existing order.
+     */
+    public function update(Request $request, Order $order)
+    {
+        $consumer = Auth::user()->consumer;
+        if (! $consumer || $order->consumer_id !== $consumer->id) {
+            abort(403);
+        }
+
+        $request->validate([
+            'quantity' => 'required|integer|min:1',
+        ]);
+
+        $produce = $order->produce;
+        $diff = $request->quantity - $order->quantity;
+
+        if ($diff > $produce->quantity_available) {
+            return back()->with('error', 'The requested quantity exceeds available stock.');
+        }
+
+        $totalPrice = $order->unit_price * $request->quantity;
+
+        DB::transaction(function () use ($order, $produce, $request, $diff, $totalPrice) {
+            $order->update([
+                'quantity' => $request->quantity,
+                'total_price' => $totalPrice,
+            ]);
+
+            $produce->decrement('quantity_available', $diff);
+        });
+
+        return back()->with('success', 'Order updated successfully!');
+    }
+
+    /**
+     * Delete an order.
+     */
+    public function destroy(Order $order)
+    {
+        $consumer = Auth::user()->consumer;
+        if (! $consumer || $order->consumer_id !== $consumer->id) {
+            abort(403);
+        }
+
+        DB::transaction(function () use ($order) {
+            $order->produce->increment('quantity_available', $order->quantity);
+            $order->delete();
+        });
+
+        return back()->with('success', 'Order cancelled successfully!');
+    }
 }

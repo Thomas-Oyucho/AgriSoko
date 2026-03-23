@@ -165,4 +165,52 @@ class ConsumerOrderTest extends TestCase
             ->has('orders', 1)
         );
     }
+
+    public function test_consumer_can_update_their_order()
+    {
+        $order = Order::create([
+            'consumer_id' => $this->consumer->id,
+            'produce_id' => $this->produce->id,
+            'quantity' => 2,
+            'unit_price' => 2.50,
+            'total_price' => 5.00,
+        ]);
+        $this->produce->decrement('quantity_available', 2);
+
+        $response = $this->actingAs($this->consumerUser)
+            ->patch(route('consumer.orders.update', $order), [
+                'quantity' => 5,
+            ]);
+
+        $response->assertSessionHas('success', 'Order updated successfully!');
+        $this->assertDatabaseHas('orders', [
+            'id' => $order->id,
+            'quantity' => 5,
+            'total_price' => 12.50,
+        ]);
+
+        $this->produce->refresh();
+        $this->assertEquals(5, $this->produce->quantity_available);
+    }
+
+    public function test_consumer_can_delete_their_order()
+    {
+        $order = Order::create([
+            'consumer_id' => $this->consumer->id,
+            'produce_id' => $this->produce->id,
+            'quantity' => 3,
+            'unit_price' => 2.50,
+            'total_price' => 7.50,
+        ]);
+        $this->produce->decrement('quantity_available', 3);
+
+        $response = $this->actingAs($this->consumerUser)
+            ->delete(route('consumer.orders.destroy', $order));
+
+        $response->assertSessionHas('success', 'Order cancelled successfully!');
+        $this->assertDatabaseMissing('orders', ['id' => $order->id]);
+
+        $this->produce->refresh();
+        $this->assertEquals(10, $this->produce->quantity_available);
+    }
 }

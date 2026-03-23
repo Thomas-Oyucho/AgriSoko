@@ -1,4 +1,18 @@
-import { Head, usePage } from '@inertiajs/react';
+import { Head, useForm, usePage, router } from '@inertiajs/react';
+import type { FormEventHandler} from 'react';
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
     Table,
     TableBody,
@@ -16,7 +30,9 @@ interface Order {
     total_price: string;
     created_at: string;
     produce: {
+        id: number;
         name: string;
+        quantity_available: number;
         category: {
             category_name: string;
         };
@@ -50,6 +66,7 @@ export default function ConsumerOrders() {
                                     <TableHead>Quantity</TableHead>
                                     <TableHead>Unit Price</TableHead>
                                     <TableHead>Total Price</TableHead>
+                                    <TableHead className="text-right">Actions</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -64,6 +81,22 @@ export default function ConsumerOrders() {
                                         <TableCell>{order.quantity}</TableCell>
                                         <TableCell>KES {order.unit_price}</TableCell>
                                         <TableCell className="font-bold">KES {order.total_price}</TableCell>
+                                        <TableCell className="text-right">
+                                            <div className="flex justify-end gap-2">
+                                                <EditOrderDialog order={order} />
+                                                <Button
+                                                    variant="destructive"
+                                                    size="sm"
+                                                    onClick={() => {
+                                                        if (confirm('Are you sure you want to cancel this order?')) {
+                                                            router.delete(`/consumer/orders/${order.id}`);
+                                                        }
+                                                    }}
+                                                >
+                                                    Cancel
+                                                </Button>
+                                            </div>
+                                        </TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
@@ -72,5 +105,65 @@ export default function ConsumerOrders() {
                 )}
             </div>
         </AppLayout>
+    );
+}
+
+function EditOrderDialog({ order }: { order: Order }) {
+    const [open, setOpen] = useState(false);
+    const { data, setData, patch, processing, errors } = useForm({
+        quantity: order.quantity,
+    });
+
+    const submit: FormEventHandler = (e) => {
+        e.preventDefault();
+        patch(`/consumer/orders/${order.id}`, {
+            onSuccess: () => setOpen(false),
+        });
+    };
+
+    const maxQuantity = order.quantity + order.produce.quantity_available;
+
+    return (
+        <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger asChild>
+                <Button variant="outline" size="sm">Edit</Button>
+            </DialogTrigger>
+            <DialogContent>
+                <form onSubmit={submit}>
+                    <DialogHeader>
+                        <DialogTitle>Edit Order</DialogTitle>
+                        <DialogDescription>
+                            Adjust the quantity for your order of {order.produce.name}.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <div className="grid gap-4 py-4">
+                        <div className="grid gap-2">
+                            <Label htmlFor="quantity">Quantity (Max available: {maxQuantity})</Label>
+                            <Input
+                                id="quantity"
+                                type="number"
+                                min="1"
+                                max={maxQuantity}
+                                value={data.quantity}
+                                onChange={(e) => setData('quantity', parseInt(e.target.value))}
+                                required
+                            />
+                            {errors.quantity && <div className="text-red-500 text-sm">{errors.quantity}</div>}
+                        </div>
+                        <div className="text-sm">
+                            <span className="text-gray-500">Unit Price: </span>
+                            <span className="font-medium">KES {order.unit_price}</span>
+                        </div>
+                        <div className="text-lg font-bold">
+                            Total: KES {(parseFloat(order.unit_price) * data.quantity).toFixed(2)}
+                        </div>
+                    </div>
+                    <DialogFooter>
+                        <Button type="button" variant="ghost" onClick={() => setOpen(false)}>Cancel</Button>
+                        <Button type="submit" disabled={processing}>Save Changes</Button>
+                    </DialogFooter>
+                </form>
+            </DialogContent>
+        </Dialog>
     );
 }

@@ -9,25 +9,35 @@ export default function AuthSimpleLayout({
     description,
 }: AuthLayoutProps) {
     return (
-        <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-background p-6 md:p-10">
-            <div className="w-full max-w-sm">
-                <div className="flex flex-col gap-8">
-                    <div className="flex flex-col items-center gap-4">
+        <div className="flex min-h-svh flex-col items-center justify-center bg-linear-to-br from-[#f0f9ff] to-[#e0f2fe] p-6 md:p-10 dark:from-slate-900 dark:to-slate-800">
+            <div className="w-full max-w-md">
+                <div className="flex flex-col gap-8 rounded-2xl bg-white p-8 shadow-xl dark:bg-slate-950">
+                    <div className="flex flex-col items-center gap-2">
                         <Link
                             href={home()}
-                            className="flex flex-col items-center gap-2 font-medium"
+                            className="flex items-center gap-2 font-medium"
                         >
-                            <div className="mb-1 flex h-9 w-9 items-center justify-center rounded-md">
-                                <AppLogoIcon className="size-9 fill-current text-[var(--foreground)] dark:text-white" />
+                            <div className="flex h-10 w-10 items-center justify-center rounded-md text-[#22c55e]">
+                                <AppLogoIcon className="size-10 fill-current" />
                             </div>
-                            <span className="sr-only">{title}</span>
+                            <span className="text-3xl font-bold text-[#1e293b] dark:text-white">FarmConnect</span>
                         </Link>
 
-                        <div className="space-y-2 text-center">
-                            <h1 className="text-xl font-medium">{title}</h1>
-                            <p className="text-center text-sm text-muted-foreground">
-                                {description}
-                            </p>
+                        <div className="mt-4 space-y-2 text-center">
+                            <h1 className="text-3xl font-bold tracking-tight text-[#1e293b] dark:text-white">{title}</h1>
+                            <div className="flex justify-center">
+                                <Link
+                                    href="/register"
+                                    className="text-sm font-medium text-[#22c55e] underline underline-offset-4 hover:text-[#16a34a]"
+                                >
+                                    Change role
+                                </Link>
+                            </div>
+                            {description && (
+                                <p className="text-center text-sm text-muted-foreground">
+                                    {description}
+                                </p>
+                            )}
                         </div>
                     </div>
                     {children}

@@ -20,8 +20,8 @@ export default function RegisterFarmer() {
 
     return (
         <AuthLayout
-            title="Farmer sign up"
-            description="Create an account to start selling produce"
+            title="Sign Up as Farmer"
+            description=""
         >
             <Head title="Register as Farmer" />
 
@@ -32,17 +32,19 @@ export default function RegisterFarmer() {
     }}
     className="flex flex-col gap-6"
 >
-    <div className="grid gap-6">
+    <div className="grid gap-4">
 
         {/* First Name */}
         <div className="grid gap-2">
-            <Label htmlFor="first_name">First name</Label>
+            <Label htmlFor="first_name" className="text-[#1e293b] font-semibold">First Name *</Label>
             <Input
                 id="first_name"
                 type="text"
                 name="first_name"
                 required
                 autoFocus
+                placeholder="First name"
+                className="bg-[#f1f5f9] border-none rounded-xl h-12 px-4 focus-visible:ring-1 focus-visible:ring-[#22c55e]"
                 value={form.data.first_name}
                 onChange={(e) =>
                     form.setData('first_name', e.target.value)
@@ -53,11 +55,13 @@ export default function RegisterFarmer() {
 
         {/* Middle Name */}
         <div className="grid gap-2">
-            <Label htmlFor="middle_name">Middle name</Label>
+            <Label htmlFor="middle_name" className="text-[#1e293b] font-semibold">Middle Name</Label>
             <Input
                 id="middle_name"
                 type="text"
                 name="middle_name"
+                placeholder="Middle name"
+                className="bg-[#f1f5f9] border-none rounded-xl h-12 px-4 focus-visible:ring-1 focus-visible:ring-[#22c55e]"
                 value={form.data.middle_name}
                 onChange={(e) =>
                     form.setData('middle_name', e.target.value)
@@ -68,12 +72,14 @@ export default function RegisterFarmer() {
 
         {/* Last Name */}
         <div className="grid gap-2">
-            <Label htmlFor="last_name">Last name</Label>
+            <Label htmlFor="last_name" className="text-[#1e293b] font-semibold">Last Name *</Label>
             <Input
                 id="last_name"
                 type="text"
                 name="last_name"
                 required
+                placeholder="Last name"
+                className="bg-[#f1f5f9] border-none rounded-xl h-12 px-4 focus-visible:ring-1 focus-visible:ring-[#22c55e]"
                 value={form.data.last_name}
                 onChange={(e) =>
                     form.setData('last_name', e.target.value)
@@ -84,12 +90,14 @@ export default function RegisterFarmer() {
 
         {/* Email */}
         <div className="grid gap-2">
-            <Label htmlFor="email">Email address</Label>
+            <Label htmlFor="email" className="text-[#1e293b] font-semibold">Email Address *</Label>
             <Input
                 id="email"
                 type="email"
                 name="email"
                 required
+                placeholder="john@example.com"
+                className="bg-[#f1f5f9] border-none rounded-xl h-12 px-4 focus-visible:ring-1 focus-visible:ring-[#22c55e]"
                 value={form.data.email}
                 onChange={(e) =>
                     form.setData('email', e.target.value)
@@ -100,11 +108,13 @@ export default function RegisterFarmer() {
 
         {/* Phone */}
         <div className="grid gap-2">
-            <Label htmlFor="phone">Phone</Label>
+            <Label htmlFor="phone" className="text-[#1e293b] font-semibold">Phone Number</Label>
             <Input
                 id="phone"
                 type="text"
                 name="phone"
+                placeholder="+254712345678"
+                className="bg-[#f1f5f9] border-none rounded-xl h-12 px-4 focus-visible:ring-1 focus-visible:ring-[#22c55e]"
                 value={form.data.phone}
                 onChange={(e) =>
                     form.setData('phone', e.target.value)
@@ -115,12 +125,14 @@ export default function RegisterFarmer() {
 
         {/* Location */}
         <div className="grid gap-2">
-            <Label htmlFor="location">Location</Label>
+            <Label htmlFor="location" className="text-[#1e293b] font-semibold">Location *</Label>
             <Input
                 id="location"
                 type="text"
                 name="location"
                 required
+                placeholder="Nairobi, Kenya"
+                className="bg-[#f1f5f9] border-none rounded-xl h-12 px-4 focus-visible:ring-1 focus-visible:ring-[#22c55e]"
                 value={form.data.location}
                 onChange={(e) =>
                     form.setData('location', e.target.value)
@@ -131,12 +143,14 @@ export default function RegisterFarmer() {
 
         {/* Password */}
         <div className="grid gap-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password" className="text-[#1e293b] font-semibold">Password *</Label>
             <Input
                 id="password"
                 type="password"
                 name="password"
                 required
+                placeholder="At least 6 characters"
+                className="bg-[#f1f5f9] border-none rounded-xl h-12 px-4 focus-visible:ring-1 focus-visible:ring-[#22c55e]"
                 value={form.data.password}
                 onChange={(e) =>
                     form.setData('password', e.target.value)
@@ -147,14 +161,16 @@ export default function RegisterFarmer() {
 
         {/* Confirm Password */}
         <div className="grid gap-2">
-            <Label htmlFor="password_confirmation">
-                Confirm password
+            <Label htmlFor="password_confirmation" className="text-[#1e293b] font-semibold">
+                Confirm Password *
             </Label>
             <Input
                 id="password_confirmation"
                 type="password"
                 name="password_confirmation"
                 required
+                placeholder="Confirm your password"
+                className="bg-[#f1f5f9] border-none rounded-xl h-12 px-4 focus-visible:ring-1 focus-visible:ring-[#22c55e]"
                 value={form.data.password_confirmation}
                 onChange={(e) =>
                     form.setData('password_confirmation', e.target.value)
@@ -166,7 +182,7 @@ export default function RegisterFarmer() {
         {/* Submit */}
         <Button
             type="submit"
-            className="mt-2 w-full"
+            className="mt-2 w-full bg-[#22c55e] hover:bg-[#16a34a] text-white rounded-xl h-12 text-lg font-bold"
             disabled={form.processing}
         >
             {form.processing && <Spinner />}

@@ -60,4 +60,14 @@ Route::middleware(['auth', 'verified'])
         Route::resource('produce', \App\Http\Controllers\ProduceController::class);
     });
 
+// consumer produce and ordering
+Route::middleware(['auth', 'verified'])
+    ->prefix('consumer')
+    ->name('consumer.')
+    ->group(function () {
+        Route::get('/produce', [\App\Http\Controllers\ConsumerProduceController::class, 'index'])->name('produce.index');
+        Route::get('/produce/{produce}', [\App\Http\Controllers\ConsumerProduceController::class, 'show'])->name('produce.show');
+        Route::post('/orders', [\App\Http\Controllers\OrderController::class, 'store'])->name('orders.store');
+    });
+
 require __DIR__.'/settings.php';

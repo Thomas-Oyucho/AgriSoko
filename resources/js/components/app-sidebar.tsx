@@ -29,10 +29,18 @@ function buildNavItems() {
     ];
 
     const { auth } = usePage().props as any;
-    if (auth?.user?.farmer) {
+    if (auth?.user?.is_farmer) {
         items.push({
             title: 'Produce',
             href: '/farmer/produce',
+            icon: Folder,
+        });
+    }
+
+    if (auth?.user?.is_consumer) {
+        items.push({
+            title: 'Produces',
+            href: '/consumer/produce',
             icon: Folder,
         });
     }

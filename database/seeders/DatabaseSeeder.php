@@ -3,8 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Database\Seeders\ProduceCategorySeeder;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Farmer;
+use App\Models\Consumer;
+use App\Models\Produce;
+use App\Models\ProduceCategory;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,19 +16,51 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // predefined produce categories
+        $this->call(ProduceCategorySeeder::class);
 
-        $user = User::factory()->create([
-            'first_name' => 'Test',
-            'middle_name' => null,
+        // Create Admin
+        $adminUser = User::factory()->create([
+            'first_name' => 'Admin',
             'last_name' => 'User',
-            'email' => 'test@example.com',
+            'email' => 'admin@example.com',
+        ]);
+        $adminUser->admin()->create();
+
+        // Create Farmer
+        $farmerUser = User::factory()->create([
+            'first_name' => 'John',
+            'last_name' => 'Farmer',
+            'email' => 'farmer@example.com',
+        ]);
+        $farmer = Farmer::create([
+            'user_id' => $farmerUser->id,
+            'location' => 'Nairobi',
+            'is_verified' => true,
         ]);
 
-        // give the seeded user full admin access
-        $user->admin()->create();
+        // Create Consumer
+        $consumerUser = User::factory()->create([
+            'first_name' => 'Jane',
+            'last_name' => 'Consumer',
+            'email' => 'consumer@example.com',
+        ]);
+        Consumer::create([
+            'user_id' => $consumerUser->id,
+            'location' => 'Nairobi',
+        ]);
 
-        // predefined produce categories for farmers
-        $this->call(ProduceCategorySeeder::class);
+        // Create Produce for the Farmer
+        $category = ProduceCategory::first();
+        if ($category) {
+            Produce::create([
+                'farmer_id' => $farmer->id,
+                'category_id' => $category->id,
+                'name' => 'Organic Tomatoes',
+                'description' => 'Freshly harvested organic tomatoes from the farm.',
+                'price' => 150.00,
+                'quantity_available' => 50,
+            ]);
+        }
     }
 }

@@ -20,7 +20,7 @@ export default function AuthSimpleLayout({
                             <div className="flex h-10 w-10 items-center justify-center rounded-md text-[#22c55e]">
                                 <AppLogoIcon className="size-10 fill-current" />
                             </div>
-                            <span className="text-3xl font-bold text-[#1e293b] dark:text-white">FarmConnect</span>
+                            <span className="text-3xl font-bold text-[#1e293b] dark:text-white">FarmConnect AgriSoko</span>
                         </Link>
 
                         <div className="mt-4 space-y-2 text-center">

@@ -45,7 +45,35 @@ Route::get('farmer/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('farmer.dashboard');
 
 Route::get('consumer/dashboard', function () {
-    return Inertia::render('ConsumerDashboard');
+    $user = auth()->user();
+    $consumer = $user->consumer;
+
+    $featuredProduces = \App\Models\Produce::with(['farmer.user', 'category'])
+        ->latest()
+        ->take(4)
+        ->get();
+
+    $allProduces = \App\Models\Produce::with(['farmer.user', 'category'])
+        ->latest()
+        ->take(10)
+        ->get();
+
+    $stats = [
+        'market' => '1,842.98',
+        'service' => '941.99',
+        'balance' => number_format($consumer->orders()->sum('total_price'), 2),
+    ];
+
+    $marketPlaces = \App\Models\Farmer::with('user')
+        ->take(5)
+        ->get();
+
+    return Inertia::render('ConsumerDashboard', [
+        'featuredProduces' => $featuredProduces,
+        'allProduces' => $allProduces,
+        'stats' => $stats,
+        'marketPlaces' => $marketPlaces,
+    ]);
 })->middleware(['auth', 'verified'])->name('consumer.dashboard');
 
 Route::get('admin/dashboard', function () {

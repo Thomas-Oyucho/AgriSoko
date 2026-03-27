@@ -13,10 +13,10 @@ export default function Register() {
             <Head title="Register" />
 
             <div className="flex flex-col gap-4">
-                <Button asChild className="w-full">
+                <Button asChild className="w-full bg-[#22c55e] hover:bg-[#16a34a] text-white rounded-xl h-12 text-lg font-bold">
                     <Link href="/register/farmer">Register as Farmer</Link>
                 </Button>
-                <Button asChild className="w-full">
+                <Button asChild className="w-full bg-[#22c55e] hover:bg-[#16a34a] text-white rounded-xl h-12 text-lg font-bold">
                     <Link href="/register/consumer">Register as Consumer</Link>
                 </Button>
             </div>

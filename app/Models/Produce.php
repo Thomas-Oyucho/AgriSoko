@@ -20,10 +20,14 @@ class Produce extends Model
         'picture',
         'description',
         'date_listed',
+        'weight_size',
+        'unit',
+        'allow_farm_visits',
     ];
 
     protected $casts = [
         'date_listed' => 'datetime',
+        'allow_farm_visits' => 'boolean',
     ];
 
     public function farmer()

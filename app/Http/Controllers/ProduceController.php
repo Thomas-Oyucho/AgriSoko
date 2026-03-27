@@ -73,6 +73,9 @@ class ProduceController extends Controller
             'quantity_available' => 'required|integer|min:0',
             'picture' => 'nullable|url',
             'description' => 'nullable|string',
+            'weight_size' => 'nullable|string|max:255',
+            'unit' => 'nullable|string|max:255',
+            'allow_farm_visits' => 'boolean',
         ]);
 
         $data['farmer_id'] = $farmer->id;
@@ -117,6 +120,9 @@ class ProduceController extends Controller
             'quantity_available' => 'required|integer|min:0',
             'picture' => 'nullable|url',
             'description' => 'nullable|string',
+            'weight_size' => 'nullable|string|max:255',
+            'unit' => 'nullable|string|max:255',
+            'allow_farm_visits' => 'boolean',
         ]);
 
         $produce->update($data);

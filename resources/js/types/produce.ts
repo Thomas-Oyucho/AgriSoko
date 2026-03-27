@@ -14,5 +14,8 @@ export interface Produce {
     picture?: string | null;
     description?: string | null;
     date_listed: string;
+    weight_size: string;
+    unit: string;
+    allow_farm_visits: boolean;
     category: ProduceCategory;
 }

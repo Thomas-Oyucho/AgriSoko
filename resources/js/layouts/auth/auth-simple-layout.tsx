@@ -1,4 +1,4 @@
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import AppLogoIcon from '@/components/app-logo-icon';
 import { home } from '@/routes';
 import type { AuthLayoutProps } from '@/types';
@@ -8,6 +8,9 @@ export default function AuthSimpleLayout({
     title,
     description,
 }: AuthLayoutProps) {
+    const { url } = usePage();
+    const isRegistrationPage = url.startsWith('/register');
+
     return (
         <div className="flex min-h-svh flex-col items-center justify-center bg-linear-to-br from-[#f0f9ff] to-[#e0f2fe] p-6 md:p-10 dark:from-slate-900 dark:to-slate-800">
             <div className="w-full max-w-md">
@@ -25,14 +28,16 @@ export default function AuthSimpleLayout({
 
                         <div className="mt-4 space-y-2 text-center">
                             <h1 className="text-3xl font-bold tracking-tight text-[#1e293b] dark:text-white">{title}</h1>
-                            <div className="flex justify-center">
-                                <Link
-                                    href="/register"
-                                    className="text-sm font-medium text-[#22c55e] underline underline-offset-4 hover:text-[#16a34a]"
-                                >
-                                    Change role
-                                </Link>
-                            </div>
+                            {isRegistrationPage && url !== '/register' && (
+                                <div className="flex justify-center">
+                                    <Link
+                                        href="/register"
+                                        className="text-sm font-medium text-[#22c55e] underline underline-offset-4 hover:text-[#16a34a]"
+                                    >
+                                        Change role
+                                    </Link>
+                                </div>
+                            )}
                             {description && (
                                 <p className="text-center text-sm text-muted-foreground">
                                     {description}

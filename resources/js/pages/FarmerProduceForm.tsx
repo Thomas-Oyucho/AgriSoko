@@ -39,14 +39,14 @@ export default function FarmerProduceForm({
 
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (editing) {
+        if (editing && produce) {
             form.put(`/farmer/produce/${produce.id}`);
         } else {
             form.post('/farmer/produce');
         }
     };
 
-    const inputClasses = "bg-[#f1f5f9] border-none rounded-lg focus-visible:ring-1 focus-visible:ring-green-500";
+    const inputClasses = "bg-[#f1f5f9] border-none rounded-lg focus-visible:ring-1 focus-visible:ring-green-500 dark:bg-slate-800 dark:text-slate-100";
 
     return (
         <AppLayout>

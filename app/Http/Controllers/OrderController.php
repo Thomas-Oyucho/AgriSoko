@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\Produce;
+use App\Models\Conversation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -86,6 +87,18 @@ class OrderController extends Controller
             ]);
 
             $produce->decrement('quantity_available', $request->quantity);
+
+            // Ensure a conversation exists between the consumer and the farmer
+            $farmerUserId = $produce->farmer->user_id;
+            $consumerUserId = $consumer->user_id;
+
+            $userIds = [$farmerUserId, $consumerUserId];
+            sort($userIds);
+
+            Conversation::firstOrCreate([
+                'user_one_id' => $userIds[0],
+                'user_two_id' => $userIds[1],
+            ]);
         });
 
         return to_route('consumer.orders.index')->with('success', 'Order placed successfully!');

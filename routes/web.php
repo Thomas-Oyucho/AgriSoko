@@ -52,6 +52,16 @@ Route::get('admin/dashboard', function () {
     return Inertia::render('AdminDashboard');
 })->middleware(['auth', 'verified'])->name('admin.dashboard');
 
+// messages
+use App\Http\Controllers\ConversationController;
+use App\Http\Controllers\MessageController;
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/messages', [ConversationController::class, 'index'])->name('messages.index');
+    Route::get('/messages/{conversation}', [ConversationController::class, 'show'])->name('messages.show');
+    Route::post('/messages/{conversation}', [MessageController::class, 'store'])->name('messages.store');
+});
+
 // farmer produce management
 Route::middleware(['auth', 'verified'])
     ->prefix('farmer')

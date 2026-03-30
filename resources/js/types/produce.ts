@@ -11,8 +11,11 @@ export interface Produce {
     name: string;
     price: number;
     quantity_available: number;
+    stock_unit?: string | null;
+    price_unit?: string | null;
     picture?: string | null;
     description?: string | null;
+    allow_farm_visits: boolean;
     date_listed: string;
     category: ProduceCategory;
 }

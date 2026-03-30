@@ -1,12 +1,12 @@
 import { useForm, usePage } from '@inertiajs/react';
-import AppLayout from '@/layouts/app-layout';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { BreadcrumbItem, Conversation, Message, Order, User } from '@/types';
 import { format, formatDistanceToNow } from 'date-fns';
 import { Send, ShoppingBag } from 'lucide-react';
 import { useEffect, useRef } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Textarea } from '@/components/ui/textarea';
+import AppLayout from '@/layouts/app-layout';
+import type { BreadcrumbItem, Conversation, Message, Order, User, SharedProps } from '@/types';
 
 interface Props {
     conversation: Conversation;
@@ -16,7 +16,7 @@ interface Props {
 }
 
 export default function Show({ conversation, messages, otherUser, orders }: Props) {
-    const { auth } = usePage().props as any;
+    const { auth } = usePage<SharedProps>().props;
     const user = auth.user;
     const scrollRef = useRef<HTMLDivElement>(null);
 

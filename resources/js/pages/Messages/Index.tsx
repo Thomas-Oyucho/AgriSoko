@@ -1,16 +1,16 @@
 import { Link, usePage } from '@inertiajs/react';
-import AppLayout from '@/layouts/app-layout';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { BreadcrumbItem, Conversation, User } from '@/types';
 import { formatDistanceToNow } from 'date-fns';
 import { MessageSquare } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import AppLayout from '@/layouts/app-layout';
+import type { BreadcrumbItem, Conversation, User, PaginatedConversation, SharedProps } from '@/types';
 
 interface Props {
-    conversations: Conversation[] | { data: Conversation[]; links: any; meta: any };
+    conversations: Conversation[] | PaginatedConversation;
 }
 
 export default function Index({ conversations }: Props) {
-    const { auth } = usePage().props as any;
+    const { auth } = usePage<SharedProps>().props;
     const user = auth.user;
 
     const breadcrumbs: BreadcrumbItem[] = [
@@ -21,7 +21,7 @@ export default function Index({ conversations }: Props) {
     ];
 
     const isPaginated = !Array.isArray(conversations);
-    const conversationList = isPaginated ? (conversations as any).data : conversations;
+    const conversationList = isPaginated ? (conversations as PaginatedConversation).data : conversations;
 
     const getOtherUser = (conversation: Conversation) => {
         if (user.is_admin) {
@@ -84,12 +84,12 @@ export default function Index({ conversations }: Props) {
                             </div>
                         )}
 
-                        {isPaginated && (conversations as any).links && (
+                        {isPaginated && (conversations as PaginatedConversation).links && (
                             <div className="mt-6 flex justify-center gap-2">
-                                {(conversations as any).meta.links.map((link: any, index: number) => (
+                                {(conversations as PaginatedConversation).meta.links.map((link, index: number) => (
                                     <Link
                                         key={index}
-                                        href={link.url}
+                                        href={link.url ?? '#'}
                                         className={`px-3 py-1 text-sm rounded ${
                                             link.active
                                                 ? 'bg-emerald-600 text-white'

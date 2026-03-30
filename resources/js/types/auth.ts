@@ -19,3 +19,7 @@ export type Auth = {
     user: User;
 };
 
+export interface SharedProps {
+    auth: Auth;
+    [key: string]: unknown;
+}

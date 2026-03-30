@@ -71,6 +71,9 @@ class ProduceController extends Controller
             'category_id' => 'required|exists:produce_categories,id',
             'price' => 'required|numeric|min:0',
             'quantity_available' => 'required|integer|min:0',
+            'weight_size' => 'nullable|string|max:255',
+            'unit' => 'nullable|string|max:255',
+            'allow_farm_visits' => 'boolean',
             'picture' => 'nullable|url',
             'description' => 'nullable|string',
         ]);
@@ -115,6 +118,9 @@ class ProduceController extends Controller
             'category_id' => 'required|exists:produce_categories,id',
             'price' => 'required|numeric|min:0',
             'quantity_available' => 'required|integer|min:0',
+            'weight_size' => 'nullable|string|max:255',
+            'unit' => 'nullable|string|max:255',
+            'allow_farm_visits' => 'boolean',
             'picture' => 'nullable|url',
             'description' => 'nullable|string',
         ]);

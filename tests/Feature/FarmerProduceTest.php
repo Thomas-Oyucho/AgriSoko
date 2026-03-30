@@ -39,9 +39,17 @@ class FarmerProduceTest extends TestCase
             'category_id' => $category->id,
             'price' => 10.5,
             'quantity_available' => 5,
+            'weight_size' => '5kg',
+            'unit' => 'per bag',
+            'allow_farm_visits' => true,
         ]);
         $response->assertRedirect('/farmer/produce');
-        $this->assertDatabaseHas('produce', ['name' => 'Test Item']);
+        $this->assertDatabaseHas('produce', [
+            'name' => 'Test Item',
+            'weight_size' => '5kg',
+            'unit' => 'per bag',
+            'allow_farm_visits' => true,
+        ]);
 
         $item = Produce::first();
 
@@ -54,9 +62,17 @@ class FarmerProduceTest extends TestCase
             'category_id' => $category->id,
             'price' => 12.0,
             'quantity_available' => 3,
+            'weight_size' => '10kg',
+            'unit' => 'per kg',
+            'allow_farm_visits' => false,
         ])->assertRedirect('/farmer/produce');
 
-        $this->assertDatabaseHas('produce', ['name' => 'Updated']);
+        $this->assertDatabaseHas('produce', [
+            'name' => 'Updated',
+            'weight_size' => '10kg',
+            'unit' => 'per kg',
+            'allow_farm_visits' => false,
+        ]);
 
         // delete
         $this->delete("/farmer/produce/{$item->id}")->assertRedirect();

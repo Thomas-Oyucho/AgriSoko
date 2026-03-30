@@ -11,6 +11,9 @@ export interface Produce {
     name: string;
     price: number;
     quantity_available: number;
+    weight_size?: string | null;
+    unit?: string | null;
+    allow_farm_visits: boolean;
     picture?: string | null;
     description?: string | null;
     date_listed: string;

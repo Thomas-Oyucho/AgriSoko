@@ -1,6 +1,7 @@
 import { Head, useForm } from '@inertiajs/react';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
@@ -29,6 +30,9 @@ export default function FarmerProduceForm({
         category_id: produce?.category_id || '',
         price: produce?.price || '',
         quantity_available: produce?.quantity_available || '',
+        weight_size: produce?.weight_size || '',
+        unit: produce?.unit || '',
+        allow_farm_visits: produce?.allow_farm_visits || false,
         picture: produce?.picture || '',
         description: produce?.description || '',
     });
@@ -123,6 +127,52 @@ export default function FarmerProduceForm({
                             required
                         />
                         <InputError message={form.errors.quantity_available} />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                        <div className="grid gap-2">
+                            <Label htmlFor="weight_size">Weight/Size</Label>
+                            <Input
+                                id="weight_size"
+                                type="text"
+                                placeholder="e.g. 5kg, Medium"
+                                value={form.data.weight_size}
+                                onChange={(e) =>
+                                    form.setData('weight_size', e.target.value)
+                                }
+                            />
+                            <InputError message={form.errors.weight_size} />
+                        </div>
+                        <div className="grid gap-2">
+                            <Label htmlFor="unit">Unit</Label>
+                            <Input
+                                id="unit"
+                                type="text"
+                                placeholder="e.g. per bag, per kg"
+                                value={form.data.unit}
+                                onChange={(e) =>
+                                    form.setData('unit', e.target.value)
+                                }
+                            />
+                            <InputError message={form.errors.unit} />
+                        </div>
+                    </div>
+
+                    <div className="flex items-center space-x-2 py-2">
+                        <Checkbox
+                            id="allow_farm_visits"
+                            checked={form.data.allow_farm_visits}
+                            onCheckedChange={(checked) =>
+                                form.setData(
+                                    'allow_farm_visits',
+                                    checked === true,
+                                )
+                            }
+                        />
+                        <Label htmlFor="allow_farm_visits">
+                            Allow farm visits
+                        </Label>
+                        <InputError message={form.errors.allow_farm_visits} />
                     </div>
 
                     <div className="grid gap-2">

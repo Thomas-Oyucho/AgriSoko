@@ -21,6 +21,9 @@ return new class extends Migration
             $table->string('picture')->nullable();
             $table->text('description')->nullable();
             $table->timestamp('date_listed')->useCurrent();
+            $table->string('weight_size')->nullable();
+            $table->string('unit')->nullable();
+            $table->boolean('allow_farm_visits')->default(false);
             $table->timestamps();
         });
     }

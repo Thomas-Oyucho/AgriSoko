@@ -17,13 +17,17 @@ class Produce extends Model
         'name',
         'price',
         'quantity_available',
+        'stock_unit',
+        'price_unit',
         'picture',
         'description',
+        'allow_farm_visits',
         'date_listed',
     ];
 
     protected $casts = [
         'date_listed' => 'datetime',
+        'allow_farm_visits' => 'boolean',
     ];
 
     public function farmer()

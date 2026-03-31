@@ -1,4 +1,6 @@
-import { useState, useEffect } from 'react';
+import { Smartphone } from 'lucide-react';
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
 import {
     Dialog,
     DialogContent,
@@ -7,25 +9,25 @@ import {
     DialogDescription,
     DialogFooter,
 } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Smartphone, CheckCircle, XCircle, Loader2 } from 'lucide-react';
 
 interface PaymentModalProps {
     isOpen: boolean;
     onClose: () => void;
     onStatusSelected: (status: 'paid' | 'failed') => void;
     totalAmount: number;
-    phoneNumber: string;
+    phoneNumber?: string;
 }
 
-export function PaymentModal({ isOpen, onClose, onStatusSelected, totalAmount, phoneNumber }: PaymentModalProps) {
+export function PaymentModal({ isOpen, onClose, onStatusSelected, totalAmount }: PaymentModalProps) {
     const [step, setStep] = useState<'request' | 'waiting'>('request');
+    const [prevOpen, setPrevOpen] = useState(isOpen);
 
-    useEffect(() => {
+    if (isOpen !== prevOpen) {
+        setPrevOpen(isOpen);
         if (!isOpen) {
             setStep('request');
         }
-    }, [isOpen]);
+    }
 
     return (
         <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>

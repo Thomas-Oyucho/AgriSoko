@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 export interface CartItem {
     id: number;
@@ -13,14 +13,13 @@ export interface CartItem {
 }
 
 export function useCart() {
-    const [cart, setCart] = useState<CartItem[]>([]);
-
-    useEffect(() => {
-        const savedCart = localStorage.getItem('cart');
-        if (savedCart) {
-            setCart(JSON.parse(savedCart));
+    const [cart, setCart] = useState<CartItem[]>(() => {
+        if (typeof window !== 'undefined') {
+            const savedCart = localStorage.getItem('cart');
+            return savedCart ? JSON.parse(savedCart) : [];
         }
-    }, []);
+        return [];
+    });
 
     const saveCart = (newCart: CartItem[]) => {
         setCart(newCart);

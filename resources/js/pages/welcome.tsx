@@ -11,7 +11,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { SharedProps } from '@/types';
+import type { SharedProps } from '@/types';
 
 export default function Welcome({
     canRegister = true,

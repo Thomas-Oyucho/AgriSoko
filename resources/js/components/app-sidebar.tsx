@@ -12,10 +12,10 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import { useCart } from '@/hooks/use-cart';
 import type { NavItem } from '@/types';
 import type { Auth } from '@/types';
 import AppLogo from './app-logo';
-import { useCart } from '@/hooks/use-cart';
 
 function useNavItems() {
     const { auth } = usePage().props as unknown as { auth: Auth };

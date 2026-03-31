@@ -1,13 +1,13 @@
 import { Head, Link, router, usePage } from '@inertiajs/react';
-import { SharedProps } from '@/types';
-import { useCart } from '@/hooks/use-cart';
-import AppLayout from '@/layouts/app-layout';
+import { Trash2, ShoppingBag, ArrowRight, Minus, Plus } from 'lucide-react';
+import { useState } from 'react';
+import { PaymentModal } from '@/components/PaymentModal';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Trash2, ShoppingBag, ArrowRight, Minus, Plus } from 'lucide-react';
-import { useState, useEffect } from 'react';
-import { PaymentModal } from '@/components/PaymentModal';
+import { useCart } from '@/hooks/use-cart';
+import AppLayout from '@/layouts/app-layout';
+import type { SharedProps } from '@/types';
 
 export default function Cart() {
     const { cart, removeFromCart, updateQuantity, totalPrice, totalItems, clearCart } = useCart();
@@ -16,13 +16,15 @@ export default function Cart() {
     const [orderIds, setOrderIds] = useState<number[]>([]);
 
     const { flash } = usePage<SharedProps>().props;
+    const [prevFlash, setPrevFlash] = useState(flash);
 
-    useEffect(() => {
+    if (flash !== prevFlash) {
+        setPrevFlash(flash);
         if (flash?.showPaymentModal && flash.orderIds) {
             setOrderIds(flash.orderIds);
             setShowPayment(true);
         }
-    }, [flash]);
+    }
 
     const handleCheckout = () => {
         if (!phoneNumber) {

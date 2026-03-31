@@ -34,9 +34,12 @@ export default function FarmerProduceShow({ produce }: Props) {
                         <strong>Quantity Available:</strong> {produce.quantity_available}
                     </div>
                     {produce.picture && (
-                        <div>
-                            <strong>Picture:</strong>
-                            <img src={produce.picture} alt={produce.name} className="max-w-xs mt-2" />
+                        <div className="w-full h-64 overflow-hidden rounded-lg">
+                            <img
+                                src={produce.picture}
+                                alt={produce.name}
+                                className="w-full h-full object-cover"
+                            />
                         </div>
                     )}
                     {produce.description && (

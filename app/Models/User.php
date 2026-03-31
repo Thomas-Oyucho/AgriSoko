@@ -67,6 +67,17 @@ class User extends Authenticatable
         return $this->hasOne(Admin::class);
     }
 
+    public function conversations()
+    {
+        return Conversation::where('user_one_id', $this->id)
+            ->orWhere('user_two_id', $this->id);
+    }
+
+    public function messages()
+    {
+        return $this->hasMany(Message::class, 'sender_id');
+    }
+
     /**
      * Convenience accessor for full name.
      */

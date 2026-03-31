@@ -1,6 +1,8 @@
 import { Head, useForm } from '@inertiajs/react';
+import { useEffect } from 'react';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
@@ -11,10 +13,8 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { Checkbox } from '@/components/ui/checkbox';
 import AppLayout from '@/layouts/app-layout';
 import type { Produce, ProduceCategory } from '@/types/produce';
-import { useEffect } from 'react';
 
 interface Props {
     produce?: Produce | null;
@@ -48,6 +48,7 @@ export default function FarmerProduceForm({
         if (form.data.stock_unit) {
             form.setData('price_unit', form.data.stock_unit);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [form.data.stock_unit]);
 
     const submit = (e) => {

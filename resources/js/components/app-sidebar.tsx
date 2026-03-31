@@ -1,5 +1,5 @@
 import { Link, usePage } from '@inertiajs/react';
-import { Folder, LayoutGrid, ShoppingCart } from 'lucide-react';
+import { Folder, LayoutGrid, ShoppingCart, MessageSquare } from 'lucide-react';
 
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
@@ -50,6 +50,23 @@ function useNavItems() {
             title: 'Orders',
             href: '/consumer/orders',
             icon: ShoppingCart,
+        });
+    }
+
+    if (auth?.user?.is_admin) {
+        items.push({
+            title: 'Conversations',
+            href: '/messages',
+            icon: MessageSquare,
+        });
+    }
+
+    if (auth?.user && !auth?.user?.is_admin) {
+        items.push({
+            title: 'Messages',
+            href: '/messages',
+            icon: MessageSquare,
+            badge: auth.user.unread_count > 0 ? auth.user.unread_count.toString() : undefined,
         });
     }
 

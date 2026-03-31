@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Message;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -44,6 +45,12 @@ class HandleInertiaRequests extends Middleware
                     'is_farmer' => $request->user()->farmer()->exists(),
                     'is_consumer' => $request->user()->consumer()->exists(),
                     'is_admin' => $request->user()->admin()->exists(),
+                    'unread_count' => Message::whereHas('conversation', function ($query) use ($request) {
+                        $query->where('user_one_id', $request->user()->id)
+                              ->orWhere('user_two_id', $request->user()->id);
+                    })->where('sender_id', '!=', $request->user()->id)
+                      ->where('is_read', false)
+                      ->count(),
                 ] : null,
             ],
             'flash' => [

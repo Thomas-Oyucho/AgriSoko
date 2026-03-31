@@ -30,3 +30,41 @@ test('admin dashboard redirects guest to login', function () {
     $this->get(route('admin.dashboard'))
         ->assertRedirect(route('login'));
 });
+
+test('farmer can access farmer dashboard with stats', function () {
+    $user = User::factory()->create();
+    $farmer = \App\Models\Farmer::create([
+        'user_id' => $user->id,
+        'location' => 'Nairobi',
+    ]);
+
+    $this->actingAs($user);
+
+    $response = $this->get(route('farmer.dashboard'));
+
+    $response->assertOk();
+    $response->assertInertia(fn ($page) => $page
+        ->component('FarmerDashboard')
+        ->has('stats')
+        ->has('recentOrders')
+    );
+});
+
+test('consumer can access consumer dashboard with stats', function () {
+    $user = User::factory()->create();
+    $consumer = \App\Models\Consumer::create([
+        'user_id' => $user->id,
+        'location' => 'Mombasa',
+    ]);
+
+    $this->actingAs($user);
+
+    $response = $this->get(route('consumer.dashboard'));
+
+    $response->assertOk();
+    $response->assertInertia(fn ($page) => $page
+        ->component('ConsumerDashboard')
+        ->has('stats')
+        ->has('recentOrders')
+    );
+});

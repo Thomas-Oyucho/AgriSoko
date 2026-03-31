@@ -1,5 +1,5 @@
 import { Link, usePage } from '@inertiajs/react';
-import { Folder, LayoutGrid, ShoppingCart, MessageSquare } from 'lucide-react';
+import { Folder, LayoutGrid, ShoppingCart, MessageSquare, ShoppingBag } from 'lucide-react';
 
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
@@ -12,12 +12,14 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import { useCart } from '@/hooks/use-cart';
 import type { NavItem } from '@/types';
 import type { Auth } from '@/types';
 import AppLogo from './app-logo';
 
 function useNavItems() {
     const { auth } = usePage().props as unknown as { auth: Auth };
+    const { totalItems } = useCart();
 
     const items: NavItem[] = [
         {
@@ -45,6 +47,12 @@ function useNavItems() {
             title: 'Produces',
             href: '/consumer/produce',
             icon: Folder,
+        });
+        items.push({
+            title: 'Cart',
+            href: '/consumer/cart',
+            icon: ShoppingBag,
+            badge: totalItems > 0 ? totalItems.toString() : undefined,
         });
         items.push({
             title: 'Orders',

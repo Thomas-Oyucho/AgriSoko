@@ -21,5 +21,13 @@ export type Auth = {
 
 export interface SharedProps {
     auth: Auth;
+    flash?: {
+        success?: string;
+        error?: string;
+        showPaymentModal?: boolean;
+        orderIds?: number[];
+        phoneNumber?: string;
+        totalAmount?: number;
+    };
     [key: string]: unknown;
 }

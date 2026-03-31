@@ -1,10 +1,11 @@
-import { Head, useForm, usePage, Link } from '@inertiajs/react';
-import type { FormEventHandler } from 'react';
+import { Head, usePage, Link, router } from '@inertiajs/react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/app-layout';
+import { useCart } from '@/hooks/use-cart';
 
 interface Produce {
     id: number;
@@ -12,6 +13,8 @@ interface Produce {
     description: string;
     price: string;
     quantity_available: number;
+    picture?: string;
+    stock_unit?: string;
     category: {
         category_name: string;
     };
@@ -25,18 +28,27 @@ interface Produce {
 
 export default function ConsumerProduceShow() {
     const { produce } = usePage<{ produce: Produce }>().props;
+    const { addToCart } = useCart();
+    const [quantity, setQuantity] = useState(1);
 
-    const { data, setData, post, processing, errors } = useForm({
-        produce_id: produce.id,
-        quantity: 1,
-    });
-
-    const submit: FormEventHandler = (e) => {
+    const handleAddToCart = (e: React.FormEvent) => {
         e.preventDefault();
-        post('/consumer/orders');
+        addToCart({
+            id: Date.now(), // Unique ID for cart item entry
+            produce_id: produce.id,
+            name: produce.name,
+            quantity: quantity,
+            unit_price: parseFloat(produce.price),
+            farmer_name: `${produce.farmer.user.first_name} ${produce.farmer.user.last_name}`,
+            picture: produce.picture,
+            stock_available: produce.quantity_available,
+            stock_unit: produce.stock_unit
+        });
+
+        router.visit('/consumer/cart');
     };
 
-    const totalPrice = (parseFloat(produce.price) * data.quantity).toFixed(2);
+    const totalPrice = (parseFloat(produce.price) * quantity).toFixed(2);
 
     return (
         <AppLayout>
@@ -74,28 +86,27 @@ export default function ConsumerProduceShow() {
                         </div>
 
                         <div className="border-t pt-6">
-                            <form onSubmit={submit} className="space-y-4">
+                            <form onSubmit={handleAddToCart} className="space-y-4">
                                 <div className="grid grid-cols-2 gap-4 items-end">
                                     <div className="space-y-2">
-                                        <Label htmlFor="quantity">Quantity to Order (Max: {produce.quantity_available})</Label>
+                                        <Label htmlFor="quantity">Quantity (Max: {produce.quantity_available} {produce.stock_unit})</Label>
                                         <Input
                                             id="quantity"
                                             type="number"
                                             min="1"
                                             max={produce.quantity_available}
-                                            value={data.quantity}
-                                            onChange={(e) => setData('quantity', parseInt(e.target.value))}
+                                            value={quantity}
+                                            onChange={(e) => setQuantity(parseInt(e.target.value))}
                                             required
                                         />
-                                        {errors.quantity && <div className="text-red-500 text-sm mt-1">{errors.quantity}</div>}
                                     </div>
                                     <div className="text-right">
                                         <div className="text-sm text-gray-500 mb-1">Total Price</div>
                                         <div className="text-2xl font-bold">KES {totalPrice}</div>
                                     </div>
                                 </div>
-                                <Button className="w-full" size="lg" disabled={processing || produce.quantity_available <= 0}>
-                                    {produce.quantity_available > 0 ? 'Place Order' : 'Out of Stock'}
+                                <Button className="w-full" size="lg" disabled={produce.quantity_available <= 0}>
+                                    {produce.quantity_available > 0 ? 'Add to Cart' : 'Out of Stock'}
                                 </Button>
                             </form>
                         </div>

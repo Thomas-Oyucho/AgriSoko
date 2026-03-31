@@ -56,6 +56,10 @@ class HandleInertiaRequests extends Middleware
             'flash' => [
                 'success' => session('success'),
                 'error' => session('error'),
+                'showPaymentModal' => session('showPaymentModal'),
+                'orderIds' => session('orderIds'),
+                'phoneNumber' => session('phoneNumber'),
+                'totalAmount' => session('totalAmount'),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
         ];

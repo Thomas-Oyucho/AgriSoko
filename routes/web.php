@@ -78,8 +78,15 @@ Route::middleware(['auth', 'verified'])
     ->group(function () {
         Route::get('/produce', [\App\Http\Controllers\ConsumerProduceController::class, 'index'])->name('produce.index');
         Route::get('/produce/{produce}', [\App\Http\Controllers\ConsumerProduceController::class, 'show'])->name('produce.show');
+
+        Route::get('/cart', function () {
+            return Inertia::render('Cart');
+        })->name('cart');
+
         Route::get('/orders', [\App\Http\Controllers\OrderController::class, 'consumerIndex'])->name('orders.index');
         Route::post('/orders', [\App\Http\Controllers\OrderController::class, 'store'])->name('orders.store');
+        Route::post('/orders/bulk', [\App\Http\Controllers\OrderController::class, 'storeBulk'])->name('orders.bulk');
+        Route::post('/orders/simulate-payment', [\App\Http\Controllers\OrderController::class, 'simulatePayment'])->name('orders.simulatePayment');
         Route::patch('/orders/{order}', [\App\Http\Controllers\OrderController::class, 'update'])->name('orders.update');
         Route::delete('/orders/{order}', [\App\Http\Controllers\OrderController::class, 'destroy'])->name('orders.destroy');
     });

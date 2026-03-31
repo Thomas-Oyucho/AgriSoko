@@ -1,4 +1,5 @@
 import { usePage } from '@inertiajs/react';
+import { SharedProps } from '@/types';
 import { CheckCircle2, XCircle, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
@@ -9,14 +10,16 @@ interface FlashProps {
 }
 
 export default function FlashMessages() {
-    const { flash } = usePage().props as unknown as { flash: FlashProps };
+    const { flash } = usePage<SharedProps>().props;
     const [isVisible, setIsVisible] = useState(false);
     const [prevFlash, setPrevFlash] = useState<FlashProps>(flash);
 
-    if (flash.success !== prevFlash.success || flash.error !== prevFlash.error) {
-        setPrevFlash(flash);
-        setIsVisible(true);
-    }
+    useEffect(() => {
+        if (flash?.success !== prevFlash?.success || flash?.error !== prevFlash?.error) {
+            setPrevFlash(flash as FlashProps);
+            setIsVisible(true);
+        }
+    }, [flash]);
 
     useEffect(() => {
         let timer: ReturnType<typeof setTimeout>;
@@ -30,9 +33,9 @@ export default function FlashMessages() {
         };
     }, [isVisible]);
 
-    const message = flash.success
+    const message = flash?.success
         ? { type: 'success' as const, text: flash.success }
-        : flash.error
+        : flash?.error
           ? { type: 'error' as const, text: flash.error }
           : null;
 

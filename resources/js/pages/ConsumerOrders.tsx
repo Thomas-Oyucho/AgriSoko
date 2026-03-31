@@ -28,6 +28,7 @@ interface Order {
     quantity: number;
     unit_price: string;
     total_price: string;
+    status: string;
     created_at: string;
     produce: {
         id: number;
@@ -66,6 +67,7 @@ export default function ConsumerOrders() {
                                     <TableHead>Quantity</TableHead>
                                     <TableHead>Unit Price</TableHead>
                                     <TableHead>Total Price</TableHead>
+                                    <TableHead>Status</TableHead>
                                     <TableHead className="text-right">Actions</TableHead>
                                 </TableRow>
                             </TableHeader>
@@ -81,20 +83,34 @@ export default function ConsumerOrders() {
                                         <TableCell>{order.quantity}</TableCell>
                                         <TableCell>KES {order.unit_price}</TableCell>
                                         <TableCell className="font-bold">KES {order.total_price}</TableCell>
+                                        <TableCell>
+                                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                                                order.status === 'paid' ? 'bg-green-100 text-green-800' :
+                                                order.status === 'failed' ? 'bg-red-100 text-red-800' :
+                                                order.status === 'cancelled' ? 'bg-gray-100 text-gray-800' :
+                                                'bg-yellow-100 text-yellow-800'
+                                            }`}>
+                                                {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                                            </span>
+                                        </TableCell>
                                         <TableCell className="text-right">
                                             <div className="flex justify-end gap-2">
-                                                <EditOrderDialog order={order} />
-                                                <Button
-                                                    variant="destructive"
-                                                    size="sm"
-                                                    onClick={() => {
-                                                        if (confirm('Are you sure you want to cancel this order?')) {
-                                                            router.delete(`/consumer/orders/${order.id}`);
-                                                        }
-                                                    }}
-                                                >
-                                                    Cancel
-                                                </Button>
+                                                {order.status === 'pending' && (
+                                                    <>
+                                                        <EditOrderDialog order={order} />
+                                                        <Button
+                                                            variant="destructive"
+                                                            size="sm"
+                                                            onClick={() => {
+                                                                if (confirm('Are you sure you want to cancel this order?')) {
+                                                                    router.delete(`/consumer/orders/${order.id}`);
+                                                                }
+                                                            }}
+                                                        >
+                                                            Cancel
+                                                        </Button>
+                                                    </>
+                                                )}
                                             </div>
                                         </TableCell>
                                     </TableRow>

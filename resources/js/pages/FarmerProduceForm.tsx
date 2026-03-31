@@ -1,5 +1,5 @@
 import { Head, useForm } from '@inertiajs/react';
-import { useEffect, useState } from 'react';
+import { type FormEvent, useEffect, useState } from 'react';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -66,19 +66,24 @@ export default function FarmerProduceForm({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [form.data.stock_unit]);
 
-    const submit = (e) => {
+    const submit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (editing) {
+
+        if (editing && produce) {
             // Use POST with _method=PUT for file uploads in Laravel
             form.transform((data) => ({
                 ...data,
                 _method: 'PUT',
-            })).post(`/farmer/produce/${produce.id}`, {
+            }));
+
+            form.post(`/farmer/produce/${produce.id}`, {
                 forceFormData: true,
             });
-        } else {
-            form.post('/farmer/produce');
+
+            return;
         }
+
+        form.post('/farmer/produce');
     };
 
     return (

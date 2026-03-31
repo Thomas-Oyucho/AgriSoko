@@ -1,5 +1,5 @@
 import { Head, useForm } from '@inertiajs/react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -32,14 +32,29 @@ export default function FarmerProduceForm({
     categories,
 }: Props) {
     const editing = Boolean(produce);
-    const form = useForm({
+    const [preview, setPreview] = useState<string | null>(
+        produce?.picture || null,
+    );
+
+    const form = useForm<{
+        name: string;
+        category_id: string | number;
+        price: string | number;
+        quantity_available: string | number;
+        stock_unit: string;
+        price_unit: string;
+        picture: File | string | null;
+        description: string;
+        allow_farm_visits: boolean;
+        _method?: string;
+    }>({
         name: produce?.name || '',
         category_id: produce?.category_id || '',
         price: produce?.price || '',
         quantity_available: produce?.quantity_available || '',
         stock_unit: produce?.stock_unit || '',
         price_unit: produce?.price_unit || '',
-        picture: produce?.picture || '',
+        picture: null,
         description: produce?.description || '',
         allow_farm_visits: produce?.allow_farm_visits || false,
     });
@@ -54,7 +69,13 @@ export default function FarmerProduceForm({
     const submit = (e) => {
         e.preventDefault();
         if (editing) {
-            form.put(`/farmer/produce/${produce.id}`);
+            // Use POST with _method=PUT for file uploads in Laravel
+            form.transform((data) => ({
+                ...data,
+                _method: 'PUT',
+            })).post(`/farmer/produce/${produce.id}`, {
+                forceFormData: true,
+            });
         } else {
             form.post('/farmer/produce');
         }
@@ -71,13 +92,48 @@ export default function FarmerProduceForm({
                     {/* Image row */}
                     <div className="grid gap-2">
                         <Label htmlFor="picture">Product Image (Optional)</Label>
+                        {preview && (
+                            <div className="mb-2 relative w-32 h-32">
+                                <img
+                                    src={preview}
+                                    alt="Preview"
+                                    className="w-full h-full object-cover rounded-md border"
+                                />
+                                <Button
+                                    type="button"
+                                    variant="destructive"
+                                    size="icon"
+                                    className="absolute -top-2 -right-2 h-6 w-6 rounded-full"
+                                    onClick={() => {
+                                        setPreview(null);
+                                        form.setData('picture', null);
+                                    }}
+                                >
+                                    ×
+                                </Button>
+                            </div>
+                        )}
                         <Input
                             id="picture"
                             type="file"
+                            accept="image/*"
                             className="cursor-pointer"
-                            onChange={() => {}} // Image upload logic for later
+                            onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (file) {
+                                    form.setData('picture', file);
+                                    const reader = new FileReader();
+                                    reader.onloadend = () => {
+                                        setPreview(reader.result as string);
+                                    };
+                                    reader.readAsDataURL(file);
+                                }
+                            }}
                         />
                         <InputError message={form.errors.picture} />
+                        <p className="text-xs text-slate-500">
+                            Max size: 2MB. Format: JPG, PNG, WEBP.
+                        </p>
                     </div>
 
                     {/* Row 1: Name and Category */}

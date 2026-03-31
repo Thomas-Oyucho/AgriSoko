@@ -57,6 +57,15 @@ export default function ConsumerProduceShow() {
                         </div>
                     </CardHeader>
                     <CardContent className="space-y-6">
+                        {produce.picture && (
+                            <div className="w-full h-64 overflow-hidden rounded-lg mb-6">
+                                <img
+                                    src={produce.picture}
+                                    alt={produce.name}
+                                    className="w-full h-full object-cover"
+                                />
+                            </div>
+                        )}
                         <div>
                             <h3 className="text-lg font-semibold mb-2">Description</h3>
                             <p className="text-gray-600 leading-relaxed">

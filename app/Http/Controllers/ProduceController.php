@@ -6,6 +6,7 @@ use App\Models\Produce;
 use App\Models\ProduceCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ProduceController extends Controller
 {
@@ -73,10 +74,15 @@ class ProduceController extends Controller
             'quantity_available' => 'required|integer|min:0',
             'stock_unit' => 'nullable|string|max:255',
             'price_unit' => 'nullable|string|max:255',
-            'picture' => 'nullable|url',
+            'picture' => 'nullable|image|max:2048',
             'description' => 'nullable|string',
             'allow_farm_visits' => 'boolean',
         ]);
+
+        if ($request->hasFile('picture')) {
+            $path = $request->file('picture')->store('produce', 'public');
+            $data['picture'] = Storage::url($path);
+        }
 
         $data['farmer_id'] = $farmer->id;
         $data['date_listed'] = now();
@@ -120,10 +126,24 @@ class ProduceController extends Controller
             'quantity_available' => 'required|integer|min:0',
             'stock_unit' => 'nullable|string|max:255',
             'price_unit' => 'nullable|string|max:255',
-            'picture' => 'nullable|url',
+            'picture' => 'nullable|image|max:2048',
             'description' => 'nullable|string',
             'allow_farm_visits' => 'boolean',
         ]);
+
+        if ($request->hasFile('picture')) {
+            // Delete old picture if it exists and is a local file
+            if ($produce->picture) {
+                $oldPath = str_replace('/storage/', '', $produce->picture);
+                Storage::disk('public')->delete($oldPath);
+            }
+
+            $path = $request->file('picture')->store('produce', 'public');
+            $data['picture'] = Storage::url($path);
+        } else {
+            // keep the old picture if no new one is uploaded
+            unset($data['picture']);
+        }
 
         $produce->update($data);
 
@@ -138,6 +158,11 @@ class ProduceController extends Controller
         $farmer = Auth::user()->farmer;
         if (! $farmer || $produce->farmer_id !== $farmer->id) {
             abort(403);
+        }
+
+        if ($produce->picture) {
+            $path = str_replace('/storage/', '', $produce->picture);
+            Storage::disk('public')->delete($path);
         }
 
         $produce->delete();

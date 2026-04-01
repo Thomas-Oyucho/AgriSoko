@@ -40,13 +40,16 @@ Route::get('dashboard', function () {
     return Inertia::render('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('farmer/dashboard', function () {
-    return Inertia::render('FarmerDashboard');
-})->middleware(['auth', 'verified'])->name('farmer.dashboard');
+use App\Http\Controllers\FarmerDashboardController;
+use App\Http\Controllers\ConsumerDashboardController;
 
-Route::get('consumer/dashboard', function () {
-    return Inertia::render('ConsumerDashboard');
-})->middleware(['auth', 'verified'])->name('consumer.dashboard');
+Route::get('farmer/dashboard', [FarmerDashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('farmer.dashboard');
+
+Route::get('consumer/dashboard', [ConsumerDashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('consumer.dashboard');
 
 Route::get('admin/dashboard', function () {
     return Inertia::render('AdminDashboard');

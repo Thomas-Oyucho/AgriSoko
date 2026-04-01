@@ -59,15 +59,15 @@ export default function Cart() {
 
             <div className="p-4 sm:p-6 lg:p-8 max-w-5xl mx-auto">
                 <h1 className="text-3xl font-bold mb-8 flex items-center gap-2">
-                    <ShoppingBag className="w-8 h-8 text-emerald-600" />
+                    <ShoppingBag className="w-8 h-8 text-success" />
                     Your Shopping Cart
                 </h1>
 
                 {cart.length === 0 ? (
                     <Card className="text-center py-12">
                         <CardContent className="space-y-4">
-                            <ShoppingBag className="w-16 h-16 text-gray-300 mx-auto" />
-                            <p className="text-xl text-gray-500">Your cart is empty</p>
+                            <ShoppingBag className="w-16 h-16 text-muted-foreground/30 mx-auto" />
+                            <p className="text-xl text-muted-foreground">Your cart is empty</p>
                             <Button asChild variant="outline">
                                 <Link href="/consumer/produce">Browse Produce</Link>
                             </Button>
@@ -92,12 +92,12 @@ export default function Cart() {
                                             <div className="flex justify-between items-start">
                                                 <div>
                                                     <h3 className="text-lg font-bold">{item.name}</h3>
-                                                    <p className="text-sm text-gray-500">Sold by {item.farmer_name}</p>
+                                                    <p className="text-sm text-muted-foreground">Sold by {item.farmer_name}</p>
                                                 </div>
                                                 <Button
                                                     variant="ghost"
                                                     size="icon"
-                                                    className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                                                    className="text-destructive hover:text-destructive/90 hover:bg-destructive/10"
                                                     onClick={() => removeFromCart(item.produce_id)}
                                                 >
                                                     <Trash2 className="w-4 h-4" />
@@ -125,10 +125,10 @@ export default function Cart() {
                                                     >
                                                         <Plus className="w-3 h-3" />
                                                     </Button>
-                                                    <span className="text-xs text-gray-400 ml-1">{item.stock_unit || 'units'}</span>
+                                                    <span className="text-xs text-muted-foreground/70 ml-1">{item.stock_unit || 'units'}</span>
                                                 </div>
                                                 <div className="text-right">
-                                                    <div className="text-sm text-gray-500">Price: KES {item.unit_price}</div>
+                                                    <div className="text-sm text-muted-foreground">Price: KES {item.unit_price}</div>
                                                     <div className="font-bold">Total: KES {(item.unit_price * item.quantity).toLocaleString()}</div>
                                                 </div>
                                             </div>
@@ -145,12 +145,12 @@ export default function Cart() {
                                 </CardHeader>
                                 <CardContent className="space-y-4">
                                     <div className="flex justify-between">
-                                        <span className="text-gray-600">Items ({totalItems})</span>
+                                        <span className="text-muted-foreground">Items ({totalItems})</span>
                                         <span>KES {totalPrice.toLocaleString()}</span>
                                     </div>
                                     <div className="border-t pt-4 flex justify-between font-bold text-lg">
                                         <span>Total Amount</span>
-                                        <span className="text-emerald-600">KES {totalPrice.toLocaleString()}</span>
+                                        <span className="text-success">KES {totalPrice.toLocaleString()}</span>
                                     </div>
 
                                     <div className="pt-4 space-y-2">
@@ -161,12 +161,12 @@ export default function Cart() {
                                             value={phoneNumber}
                                             onChange={(e) => setPhoneNumber(e.target.value)}
                                         />
-                                        <p className="text-[10px] text-gray-500">We will send an STK push to this number for payment.</p>
+                                        <p className="text-[10px] text-muted-foreground">We will send an STK push to this number for payment.</p>
                                     </div>
                                 </CardContent>
                                 <CardFooter>
                                     <Button
-                                        className="w-full bg-emerald-600 hover:bg-emerald-700"
+                                        className="w-full bg-success hover:bg-success/90 text-success-foreground"
                                         size="lg"
                                         onClick={handleCheckout}
                                     >

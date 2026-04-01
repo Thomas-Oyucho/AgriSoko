@@ -80,7 +80,7 @@ export default function ConsumerProduceShow() {
                         )}
                         <div>
                             <h3 className="text-lg font-semibold mb-2">Description</h3>
-                            <p className="text-gray-600 leading-relaxed">
+                            <p className="text-muted-foreground leading-relaxed">
                                 {produce.description || 'No description provided.'}
                             </p>
                         </div>
@@ -101,7 +101,7 @@ export default function ConsumerProduceShow() {
                                         />
                                     </div>
                                     <div className="text-right">
-                                        <div className="text-sm text-gray-500 mb-1">Total Price</div>
+                                        <div className="text-sm text-muted-foreground mb-1">Total Price</div>
                                         <div className="text-2xl font-bold">KES {totalPrice}</div>
                                     </div>
                                 </div>

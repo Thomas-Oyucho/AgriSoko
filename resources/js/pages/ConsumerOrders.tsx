@@ -77,7 +77,7 @@ export default function ConsumerOrders() {
                                         <TableCell>{new Date(order.created_at).toLocaleDateString()}</TableCell>
                                         <TableCell>
                                             <div>{order.produce.name}</div>
-                                            <div className="text-xs text-gray-500">{order.produce.category.category_name}</div>
+                                            <div className="text-xs text-muted-foreground">{order.produce.category.category_name}</div>
                                         </TableCell>
                                         <TableCell>{order.produce.farmer.user.first_name} {order.produce.farmer.user.last_name}</TableCell>
                                         <TableCell>{order.quantity}</TableCell>
@@ -85,10 +85,10 @@ export default function ConsumerOrders() {
                                         <TableCell className="font-bold">KES {order.total_price}</TableCell>
                                         <TableCell>
                                             <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                                                order.status === 'paid' ? 'bg-green-100 text-green-800' :
-                                                order.status === 'failed' ? 'bg-red-100 text-red-800' :
-                                                order.status === 'cancelled' ? 'bg-gray-100 text-gray-800' :
-                                                'bg-yellow-100 text-yellow-800'
+                                                order.status === 'paid' ? 'bg-success/10 text-success' :
+                                                order.status === 'failed' ? 'bg-destructive/10 text-destructive' :
+                                                order.status === 'cancelled' ? 'bg-muted text-muted-foreground' :
+                                                'bg-warning/10 text-warning'
                                             }`}>
                                                 {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
                                             </span>

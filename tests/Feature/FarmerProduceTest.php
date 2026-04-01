@@ -27,7 +27,10 @@ class FarmerProduceTest extends TestCase
 
         // create farmer user
         $user = User::factory()->create();
-        $farmer = Farmer::factory()->create(['user_id' => $user->id]);
+        $farmer = Farmer::factory()->create([
+            'user_id' => $user->id,
+            'is_verified' => true,
+        ]);
 
         $this->actingAs($user);
 

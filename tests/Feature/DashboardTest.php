@@ -36,6 +36,7 @@ test('farmer can access farmer dashboard with stats', function () {
     $farmer = \App\Models\Farmer::create([
         'user_id' => $user->id,
         'location' => 'Nairobi',
+        'is_verified' => true,
     ]);
 
     $this->actingAs($user);

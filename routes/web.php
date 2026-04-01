@@ -43,17 +43,48 @@ Route::get('dashboard', function () {
 use App\Http\Controllers\FarmerDashboardController;
 use App\Http\Controllers\ConsumerDashboardController;
 
+Route::get('farmer/awaiting-approval', function () {
+    return Inertia::render('auth/AwaitingApproval');
+})->middleware(['auth'])->name('farmer.awaiting-approval');
+
 Route::get('farmer/dashboard', [FarmerDashboardController::class, 'index'])
-    ->middleware(['auth', 'verified'])
+    ->middleware(['auth', 'verified', 'farmer.verified'])
     ->name('farmer.dashboard');
 
 Route::get('consumer/dashboard', [ConsumerDashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('consumer.dashboard');
 
-Route::get('admin/dashboard', function () {
-    return Inertia::render('AdminDashboard');
-})->middleware(['auth', 'verified'])->name('admin.dashboard');
+use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\Admin\AdminFarmerController;
+use App\Http\Controllers\Admin\AdminProduceController;
+use App\Http\Controllers\Admin\AdminProduceCategoryController;
+use App\Http\Controllers\Admin\AdminOrderController;
+use App\Http\Controllers\Admin\AdminReportController;
+
+Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+
+    Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');
+    Route::get('/users/{user}/edit', [AdminUserController::class, 'edit'])->name('users.edit');
+    Route::patch('/users/{user}', [AdminUserController::class, 'update'])->name('users.update');
+
+    Route::get('/farmers', [AdminFarmerController::class, 'index'])->name('farmers.index');
+    Route::patch('/farmers/{farmer}/toggle-verification', [AdminFarmerController::class, 'toggleVerification'])->name('farmers.toggle-verification');
+
+    Route::get('/produce', [AdminProduceController::class, 'index'])->name('produce.index');
+
+    Route::get('/categories', [AdminProduceCategoryController::class, 'index'])->name('categories.index');
+    Route::post('/categories', [AdminProduceCategoryController::class, 'store'])->name('categories.store');
+    Route::patch('/categories/{category}', [AdminProduceCategoryController::class, 'update'])->name('categories.update');
+    Route::delete('/categories/{category}', [AdminProduceCategoryController::class, 'destroy'])->name('categories.destroy');
+
+    Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders.index');
+    Route::get('/transactions', [AdminOrderController::class, 'transactions'])->name('transactions.index');
+
+    Route::get('/reports', [AdminReportController::class, 'index'])->name('reports.index');
+});
 
 // messages
 use App\Http\Controllers\ConversationController;
@@ -66,7 +97,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 // farmer produce management
-Route::middleware(['auth', 'verified'])
+Route::middleware(['auth', 'verified', 'farmer.verified'])
     ->prefix('farmer')
     ->name('farmer.')
     ->group(function () {

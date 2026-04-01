@@ -30,6 +30,7 @@ class ConsumerOrderTest extends TestCase
         $this->farmer = Farmer::create([
             'user_id' => $this->farmerUser->id,
             'location' => 'Test Location',
+            'is_verified' => true,
         ]);
 
         $this->consumerUser = User::factory()->create();

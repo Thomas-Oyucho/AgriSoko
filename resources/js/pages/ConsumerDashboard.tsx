@@ -149,7 +149,7 @@ export default function ConsumerDashboard({ stats, recentOrders }: Props) {
                                 asChild
                                 className="w-full justify-start gap-2 bg-emerald-600 hover:bg-emerald-700 text-white border-none"
                             >
-                                <Link href={route('consumer.produce.index')}>
+                                <Link href='/consumer/produce'>
                                     <Search className="w-4 h-4" />
                                     Browse Produce
                                 </Link>
@@ -159,7 +159,7 @@ export default function ConsumerDashboard({ stats, recentOrders }: Props) {
                                 variant="outline"
                                 className="w-full justify-start gap-2 border-stone-200 text-stone-700 hover:bg-stone-50 hover:text-stone-900"
                             >
-                                <Link href={route('consumer.orders.index')}>
+                                <Link href='/consumer/orders'>
                                     <List className="w-4 h-4" />
                                     View My Orders
                                 </Link>
@@ -169,7 +169,7 @@ export default function ConsumerDashboard({ stats, recentOrders }: Props) {
                                 variant="outline"
                                 className="w-full justify-start gap-2 border-stone-200 text-stone-700 hover:bg-stone-50 hover:text-stone-900"
                             >
-                                <Link href={route('consumer.cart')}>
+                                <Link href='/consumer/cart'>
                                     <ShoppingCart className="w-4 h-4" />
                                     My Shopping Cart
                                 </Link>

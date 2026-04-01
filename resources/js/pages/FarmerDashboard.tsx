@@ -149,7 +149,7 @@ export default function FarmerDashboard({ stats, recentOrders }: Props) {
                                 asChild
                                 className="w-full justify-start gap-2 bg-emerald-600 hover:bg-emerald-700 text-white border-none"
                             >
-                                <Link href={route('farmer.produce.create')}>
+                                <Link href="/farmer/produce">
                                     <PlusCircle className="w-4 h-4" />
                                     Add New Produce
                                 </Link>
@@ -159,7 +159,7 @@ export default function FarmerDashboard({ stats, recentOrders }: Props) {
                                 variant="outline"
                                 className="w-full justify-start gap-2 border-stone-200 text-stone-700 hover:bg-stone-50 hover:text-stone-900"
                             >
-                                <Link href={route('farmer.produce.index')}>
+                                <Link href="/farmer/produce">
                                     <List className="w-4 h-4" />
                                     Manage Products
                                 </Link>
@@ -169,7 +169,7 @@ export default function FarmerDashboard({ stats, recentOrders }: Props) {
                                 variant="outline"
                                 className="w-full justify-start gap-2 border-stone-200 text-stone-700 hover:bg-stone-50 hover:text-stone-900"
                             >
-                                <Link href={route('farmer.orders.index')}>
+                                <Link href="/farmer/orders">
                                     <ShoppingBag className="w-4 h-4" />
                                     View All Orders
                                 </Link>

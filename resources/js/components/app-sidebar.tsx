@@ -63,6 +63,41 @@ function useNavItems() {
 
     if (auth?.user?.is_admin) {
         items.push({
+            title: 'Users',
+            href: '/admin/users',
+            icon: LayoutGrid,
+        });
+        items.push({
+            title: 'Farmers',
+            href: '/admin/farmers',
+            icon: Folder,
+        });
+        items.push({
+            title: 'Transactions',
+            href: '/admin/transactions',
+            icon: ShoppingBag,
+        });
+        items.push({
+            title: 'Products',
+            href: '/admin/produce',
+            icon: Folder,
+        });
+        items.push({
+            title: 'Categories',
+            href: '/admin/categories',
+            icon: Folder,
+        });
+        items.push({
+            title: 'Reports',
+            href: '/admin/reports',
+            icon: LayoutGrid,
+        });
+        items.push({
+            title: 'Orders',
+            href: '/admin/orders',
+            icon: ShoppingCart,
+        });
+        items.push({
             title: 'Conversations',
             href: '/messages',
             icon: MessageSquare,

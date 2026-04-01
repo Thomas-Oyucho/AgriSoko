@@ -1,17 +1,32 @@
 import { Head } from '@inertiajs/react';
-import AppLayout from '@/layouts/app-layout';
+import { TrendingUp, Users, Tag } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
+import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem } from '@/types';
-import { TrendingUp, Users, Tag } from 'lucide-react';
+
+interface SalesTrend {
+    month: string;
+    total: number;
+}
+
+interface RegistrationGrowth {
+    month: string;
+    count: number;
+}
+
+interface PopularCategory {
+    id: number;
+    category_name: string;
+    produce_count: number;
+}
 
 interface Props {
     reports: {
-        salesTrends: any[];
-        registrationGrowth: any[];
-        popularCategories: any[];
-    }
+        salesTrends: SalesTrend[];
+        registrationGrowth: RegistrationGrowth[];
+        popularCategories: PopularCategory[];
+    };
 }
 
 const breadcrumbs: BreadcrumbItem[] = [

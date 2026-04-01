@@ -1,14 +1,24 @@
 import { Head, Link, useForm } from '@inertiajs/react';
-import AppLayout from '@/layouts/app-layout';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Checkbox } from '@/components/ui/checkbox';
+import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem } from '@/types';
 
+interface User {
+    id: number;
+    first_name: string;
+    middle_name: string | null;
+    last_name: string;
+    email: string;
+    phone: string | null;
+    is_active: boolean;
+}
+
 interface Props {
-    user: any;
+    user: User;
 }
 
 const breadcrumbs: BreadcrumbItem[] = [

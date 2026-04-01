@@ -89,8 +89,8 @@ export default function FarmerProduceForm({
     return (
         <AppLayout>
             <Head title={editing ? 'Edit produce' : 'New produce'} />
-            <div className="max-w-3xl mx-auto p-6 bg-white dark:bg-slate-900 rounded-xl shadow-sm mt-8">
-                <h1 className="mb-6 text-2xl font-bold text-slate-900 dark:text-slate-100">
+            <div className="max-w-3xl mx-auto p-6 bg-card border border-border rounded-xl shadow-sm mt-8">
+                <h1 className="mb-6 text-2xl font-bold text-foreground">
                     Product Information
                 </h1>
                 <form onSubmit={submit} className="space-y-6">
@@ -136,7 +136,7 @@ export default function FarmerProduceForm({
                             }}
                         />
                         <InputError message={form.errors.picture} />
-                        <p className="text-xs text-slate-500">
+                        <p className="text-xs text-muted-foreground">
                             Max size: 2MB. Format: JPG, PNG, WEBP.
                         </p>
                     </div>

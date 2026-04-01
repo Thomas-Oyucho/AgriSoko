@@ -61,7 +61,7 @@ export default function FarmerOrders() {
                                         <TableCell>{order.consumer.user.first_name} {order.consumer.user.last_name}</TableCell>
                                         <TableCell>
                                             <div>{order.produce.name}</div>
-                                            <div className="text-xs text-gray-500">{order.produce.category.category_name}</div>
+                                            <div className="text-xs text-muted-foreground">{order.produce.category.category_name}</div>
                                         </TableCell>
                                         <TableCell>{order.quantity}</TableCell>
                                         <TableCell>KES {order.unit_price}</TableCell>

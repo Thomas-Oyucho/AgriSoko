@@ -1,6 +1,7 @@
 import { Head, useForm, usePage, router } from '@inertiajs/react';
 import type { FormEventHandler} from 'react';
 import { useState } from 'react';
+import { showSwalConfirm } from '@/lib/swal';
 import { Button } from '@/components/ui/button';
 import {
     Dialog,
@@ -102,9 +103,11 @@ export default function ConsumerOrders() {
                                                             variant="destructive"
                                                             size="sm"
                                                             onClick={() => {
-                                                                if (confirm('Are you sure you want to cancel this order?')) {
-                                                                    router.delete(`/consumer/orders/${order.id}`);
-                                                                }
+                                                                showSwalConfirm('Confirm Cancellation', 'Are you sure you want to cancel this order?').then((result) => {
+                                                                    if (result.isConfirmed) {
+                                                                        router.delete(`/consumer/orders/${order.id}`);
+                                                                    }
+                                                                });
                                                             }}
                                                         >
                                                             Cancel

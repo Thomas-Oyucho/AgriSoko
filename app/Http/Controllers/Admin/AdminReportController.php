@@ -17,8 +17,8 @@ class AdminReportController extends Controller
         // Sales trends (last 6 months)
         $salesTrends = Order::where('status', 'paid')
             ->select(
-                DB::raw('sum(total_price) as total'),
-                DB::raw("strftime('%Y-%m', created_at) as month")
+                DB::raw('SUM(total_price) as total'),
+                DB::raw("DATE_FORMAT(created_at, '%Y-%m') as month")
             )
             ->groupBy('month')
             ->orderBy('month', 'asc')
@@ -26,8 +26,8 @@ class AdminReportController extends Controller
 
         // User registration growth
         $registrationGrowth = User::select(
-                DB::raw('count(*) as count'),
-                DB::raw("strftime('%Y-%m', created_at) as month")
+                DB::raw('COUNT(*) as count'),
+                DB::raw("DATE_FORMAT(created_at, '%Y-%m') as month")
             )
             ->groupBy('month')
             ->orderBy('month', 'asc')

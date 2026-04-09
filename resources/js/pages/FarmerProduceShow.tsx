@@ -28,7 +28,7 @@ export default function FarmerProduceShow({ produce }: Props) {
                         <strong>Category:</strong> {produce.category.category_name}
                     </div>
                     <div>
-                        <strong>Price:</strong> ${produce.price}
+                        <strong>Price:</strong> KES {produce.price}
                     </div>
                     <div>
                         <strong>Quantity Available:</strong> {produce.quantity_available}

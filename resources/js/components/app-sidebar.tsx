@@ -97,11 +97,11 @@ function useNavItems() {
             href: '/admin/orders',
             icon: ShoppingCart,
         });
-        items.push({
-            title: 'Conversations',
-            href: '/messages',
-            icon: MessageSquare,
-        });
+        // items.push({
+        //     title: 'Conversations',
+        //     href: '/messages',
+        //     icon: MessageSquare,
+        // });
     }
 
     if (auth?.user && !auth?.user?.is_admin) {

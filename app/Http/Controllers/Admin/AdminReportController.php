@@ -14,18 +14,22 @@ class AdminReportController extends Controller
 {
     public function index()
     {
-        // Sales trends (last 6 months)
-      $salesTrends = Order::where('status', 'paid')
-    ->select(
-        DB::raw('sum(total_price) as total'),
-        DB::raw("DATE_FORMAT(created_at, '%Y-%m') as month")
-    )
-    ->groupBy('month')
-    ->orderBy('month', 'asc')
-    ->get();
+        $oneYearAgo = Carbon::now()->subYear();
 
-        // User registration growth
-        $registrationGrowth = User::select(
+        // Sales trends (last 12 months)
+        $salesTrends = Order::where('status', 'paid')
+            ->where('created_at', '>=', $oneYearAgo)
+            ->select(
+                DB::raw('sum(total_price) as total'),
+                DB::raw("DATE_FORMAT(created_at, '%Y-%m') as month")
+            )
+            ->groupBy('month')
+            ->orderBy('month', 'asc')
+            ->get();
+
+        // User registration growth (last 12 months)
+        $registrationGrowth = User::where('created_at', '>=', $oneYearAgo)
+            ->select(
                 DB::raw('count(*) as count'),
                 DB::raw("DATE_FORMAT(created_at, '%Y-%m') as month")
             )

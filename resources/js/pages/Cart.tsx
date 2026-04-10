@@ -1,13 +1,13 @@
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Trash2, ShoppingBag, ArrowRight, Minus, Plus } from 'lucide-react';
 import { useState } from 'react';
-import { showSwalError } from '@/lib/swal';
 import { PaymentModal } from '@/components/PaymentModal';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { useCart } from '@/hooks/use-cart';
 import AppLayout from '@/layouts/app-layout';
+import { showSwalError } from '@/lib/swal';
 import type { SharedProps } from '@/types';
 
 export default function Cart() {

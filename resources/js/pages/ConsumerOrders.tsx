@@ -1,7 +1,6 @@
 import { Head, useForm, usePage, router } from '@inertiajs/react';
 import type { FormEventHandler} from 'react';
 import { useState } from 'react';
-import { showSwalConfirm } from '@/lib/swal';
 import { Button } from '@/components/ui/button';
 import {
     Dialog,
@@ -23,6 +22,7 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
+import { showSwalConfirm } from '@/lib/swal';
 
 interface Order {
     id: number;

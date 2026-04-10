@@ -246,7 +246,7 @@ export default function FarmerProduceForm({
                     {/* Row 4: Price and Price per Unit */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="grid gap-2">
-                            <Label htmlFor="price">Price (KSh) *</Label>
+                            <Label htmlFor="price">Price (KES) *</Label>
                             <Input
                                 id="price"
                                 type="number"

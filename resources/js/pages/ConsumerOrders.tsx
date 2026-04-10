@@ -82,7 +82,7 @@ export default function ConsumerOrders() {
                                         <TableCell>{order.produce.farmer.user.first_name} {order.produce.farmer.user.last_name}</TableCell>
                                         <TableCell>{order.quantity}</TableCell>
                                         <TableCell>KES {order.unit_price}</TableCell>
-                                        <TableCell className="font-bold">KES {order.total_price}</TableCell>
+                                        <TableCell className="font-bold"> KES {order.total_price}</TableCell>
                                         <TableCell>
                                             <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                                                 order.status === 'paid' ? 'bg-success/10 text-success' :

@@ -48,7 +48,7 @@ export default function ConsumerProduceShow() {
         router.visit('/consumer/cart');
     };
 
-    const totalPrice = (parseFloat(produce.price) * quantity).toFixed(2);
+    const totalPrice = ((parseFloat(produce.price) || 0) * (parseFloat(quantity) || 0)).toFixed(2);
 
     return (
         <AppLayout>
@@ -102,7 +102,7 @@ export default function ConsumerProduceShow() {
                                     </div>
                                     <div className="text-right">
                                         <div className="text-sm text-muted-foreground mb-1">Total Price</div>
-                                        <div className="text-2xl font-bold">KES {totalPrice}</div>
+                                        <div className="text-2xl font-bold"> KES {totalPrice}</div>
                                     </div>
                                 </div>
                                 <Button className="w-full" size="lg" disabled={produce.quantity_available <= 0}>

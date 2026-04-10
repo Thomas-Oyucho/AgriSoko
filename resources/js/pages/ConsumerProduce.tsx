@@ -13,7 +13,7 @@ import AppLayout from '@/layouts/app-layout';
 interface Produce {
     id: number;
     name: string;
-    price: string;
+    price: number;
     quantity_available: number;
     category: {
         category_name: string;

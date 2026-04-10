@@ -14,6 +14,7 @@ class AdminReportController extends Controller
 {
     public function index()
     {
+<<<<<<< HEAD
         $sixMonthsAgo = Carbon::now()->subMonths(6);
         $startOfCurrentMonth = Carbon::now()->startOfMonth();
 
@@ -26,12 +27,20 @@ class AdminReportController extends Controller
         // Sales trends (last 6 months)
         $salesData = Order::where('status', 'paid')
             ->where('created_at', '>=', $sixMonthsAgo)
+=======
+        $oneYearAgo = Carbon::now()->subYear();
+
+        // Sales trends (last 12 months)
+        $salesTrends = Order::where('status', 'paid')
+            ->where('created_at', '>=', $oneYearAgo)
+>>>>>>> 250ff03 (feat: add sales, registration and category charts to admin reports)
             ->select(
                 DB::raw('sum(total_price) as total'),
                 DB::raw("DATE_FORMAT(created_at, '%Y-%m') as month")
             )
             ->groupBy('month')
             ->orderBy('month', 'asc')
+<<<<<<< HEAD
             ->get()
             ->keyBy('month');
 
@@ -45,6 +54,12 @@ class AdminReportController extends Controller
 
         // User registration growth (last 6 months)
         $registrationData = User::where('created_at', '>=', $sixMonthsAgo)
+=======
+            ->get();
+
+        // User registration growth (last 12 months)
+        $registrationGrowth = User::where('created_at', '>=', $oneYearAgo)
+>>>>>>> 250ff03 (feat: add sales, registration and category charts to admin reports)
             ->select(
                 DB::raw('count(*) as count'),
                 DB::raw("DATE_FORMAT(created_at, '%Y-%m') as month")

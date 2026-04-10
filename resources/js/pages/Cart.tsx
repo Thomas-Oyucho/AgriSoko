@@ -1,6 +1,7 @@
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import { Trash2, ShoppingBag, ArrowRight, Minus, Plus } from 'lucide-react';
 import { useState } from 'react';
+import { showSwalError } from '@/lib/swal';
 import { PaymentModal } from '@/components/PaymentModal';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -28,7 +29,7 @@ export default function Cart() {
 
     const handleCheckout = () => {
         if (!phoneNumber) {
-            alert('Please enter your M-Pesa phone number');
+            showSwalError("COULDN'T COMPLETE REQUEST", 'Please enter your Mpesa phone number');
             return;
         }
 

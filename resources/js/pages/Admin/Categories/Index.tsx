@@ -1,6 +1,7 @@
 import { Head, useForm } from '@inertiajs/react';
 import { Edit, Trash, Plus } from 'lucide-react';
 import { useState } from 'react';
+import { showSwalConfirm } from '@/lib/swal';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -62,9 +63,11 @@ export default function CategoryIndex({ categories }: Props) {
     };
 
     const handleDelete = (id: number) => {
-        if (confirm('Are you sure you want to delete this category?')) {
-            destroy(`/admin/categories/${id}`);
-        }
+        showSwalConfirm('Confirm Delete', 'Are you sure you want to delete this category?').then((result) => {
+            if (result.isConfirmed) {
+                destroy(`/admin/categories/${id}`);
+            }
+        });
     };
 
     return (

@@ -1,5 +1,6 @@
 import { Head, Link, usePage } from '@inertiajs/react';
 import { router } from '@inertiajs/react';
+import { showSwalConfirm } from '@/lib/swal';
 import { Button } from '@/components/ui/button';
 import {
     Table,
@@ -64,15 +65,13 @@ export default function FarmerProduce() {
                                             size="sm"
                                             variant="destructive"
                                             onClick={() => {
-                                                if (
-                                                    confirm(
-                                                        'Are you sure you want to delete this item?',
-                                                    )
-                                                ) {
-                                                    router.delete(
-                                                        `/farmer/produce/${item.id}`,
-                                                    );
-                                                }
+                                                showSwalConfirm('Confirm Delete', 'Are you sure you want to delete this item?').then((result) => {
+                                                    if (result.isConfirmed) {
+                                                        router.delete(
+                                                            `/farmer/produce/${item.id}`,
+                                                        );
+                                                    }
+                                                });
                                             }}
                                         >
                                             Delete

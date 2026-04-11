@@ -16,7 +16,11 @@ export const ChartContainer = ({
   className?: string
 }) => {
   return (
+<<<<<<< HEAD
     <div className={cn("flex h-full w-full flex-col gap-4", className)}>
+=======
+    <div className={cn("flex flex-col gap-4", className)}>
+>>>>>>> 3debba9 (feat: use shadcn-like charts with Recharts for admin reports)
       <style>
         {Object.entries(config)
           .map(([key, value]) => {

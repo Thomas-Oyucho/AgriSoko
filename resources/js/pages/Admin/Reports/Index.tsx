@@ -1,5 +1,6 @@
 import { Head } from '@inertiajs/react';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { TrendingUp, Users, Tag, BarChart3, PieChart as PieChartIcon, LineChart as LineChartIcon } from 'lucide-react';
 import {
     Bar,
@@ -34,11 +35,27 @@ import { TrendingUp, Users, Tag, BarChart3, PieChart as PieChartIcon, LineChart 
 import { Line, Bar, Pie } from 'react-chartjs-2';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 >>>>>>> 250ff03 (feat: add sales, registration and category charts to admin reports)
+=======
+import { TrendingUp, Users, Tag, BarChart3, PieChart as PieChartIcon, LineChart as LineChartIcon } from 'lucide-react';
+import {
+    Bar,
+    BarChart,
+    CartesianGrid,
+    Cell,
+    Line,
+    LineChart,
+    Pie,
+    PieChart,
+    ResponsiveContainer,
+    XAxis,
+    YAxis,
+} from 'recharts';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+>>>>>>> 3debba9 (feat: use shadcn-like charts with Recharts for admin reports)
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem } from '@/types';
-
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, ArcElement, Title, Tooltip, Legend, Filler);
 
 interface SalesTrend {
     month: string;
@@ -79,6 +96,7 @@ const colors = [
 ];
 
 export default function ReportsIndex({ reports }: Props) {
+<<<<<<< HEAD
 <<<<<<< HEAD
     const formatCurrency = (value: number) =>
         new Intl.NumberFormat('en-KE', { style: 'currency', currency: 'KES', maximumFractionDigits: 0 }).format(value);
@@ -155,15 +173,34 @@ export default function ReportsIndex({ reports }: Props) {
             },
         ],
     };
+=======
+    const formatCurrency = (value: number) =>
+        new Intl.NumberFormat('en-KE', { style: 'currency', currency: 'KES', maximumFractionDigits: 0 }).format(value);
 
-    const chartOptions = {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                display: false,
-            },
+    // Prepare data for Recharts
+    const salesData = reports.salesTrends.map(t => ({
+        month: t.month,
+        total: t.total,
+    }));
+
+    const registrationData = reports.registrationGrowth.map(g => ({
+        month: g.month,
+        count: g.count,
+    }));
+>>>>>>> 3debba9 (feat: use shadcn-like charts with Recharts for admin reports)
+
+    const categoryData = reports.categorySales.map((c, index) => ({
+        name: c.category_name,
+        value: Number(c.total_revenue),
+        fill: colors[index % colors.length],
+    }));
+
+    const chartConfig = {
+        sales: {
+            label: "Sales",
+            color: "#10b981",
         },
+<<<<<<< HEAD
         scales: {
             y: {
                 beginAtZero: true,
@@ -187,6 +224,11 @@ export default function ReportsIndex({ reports }: Props) {
                 position: 'bottom' as const,
             },
 >>>>>>> 250ff03 (feat: add sales, registration and category charts to admin reports)
+=======
+        users: {
+            label: "Users",
+            color: "#10b981",
+>>>>>>> 3debba9 (feat: use shadcn-like charts with Recharts for admin reports)
         },
     };
 
@@ -197,6 +239,9 @@ export default function ReportsIndex({ reports }: Props) {
                 {/* Visual Charts Section */}
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3debba9 (feat: use shadcn-like charts with Recharts for admin reports)
                     {/* Sales Trend Line Chart */}
                     <Card className="lg:col-span-1">
                         <CardHeader className="flex flex-row items-center gap-2">
@@ -205,6 +250,7 @@ export default function ReportsIndex({ reports }: Props) {
                                 <CardTitle>Sales Trend</CardTitle>
                                 <CardDescription>Last 6 months revenue</CardDescription>
                             </div>
+<<<<<<< HEAD
                         </CardHeader>
                         <CardContent>
                             <div className="h-[250px] w-full">
@@ -240,11 +286,41 @@ export default function ReportsIndex({ reports }: Props) {
                             <div className="h-[250px] w-full">
                                 <Line data={salesChartData} options={chartOptions} />
 >>>>>>> 250ff03 (feat: add sales, registration and category charts to admin reports)
+=======
+                        </CardHeader>
+                        <CardContent>
+                            <div className="h-[250px] w-full">
+                                <ChartContainer config={chartConfig.sales}>
+                                    <LineChart data={salesData} margin={{ left: 12, right: 12, top: 12, bottom: 12 }}>
+                                        <CartesianGrid vertical={false} strokeDasharray="3 3" stroke="#e2e8f0" />
+                                        <XAxis
+                                            dataKey="month"
+                                            axisLine={false}
+                                            tickLine={false}
+                                            tickMargin={8}
+                                            tickFormatter={(value) => value.split('-')[1]}
+                                        />
+                                        <YAxis hide />
+                                        <ChartTooltip content={<ChartTooltipContent formatter={formatCurrency} />} />
+                                        <Line
+                                            type="monotone"
+                                            dataKey="total"
+                                            stroke="var(--color-sales)"
+                                            strokeWidth={2}
+                                            dot={{ fill: "var(--color-sales)" }}
+                                            activeDot={{ r: 6 }}
+                                        />
+                                    </LineChart>
+                                </ChartContainer>
+>>>>>>> 3debba9 (feat: use shadcn-like charts with Recharts for admin reports)
                             </div>
                         </CardContent>
                     </Card>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3debba9 (feat: use shadcn-like charts with Recharts for admin reports)
                     {/* User Growth Bar Chart */}
                     <Card className="lg:col-span-1">
                         <CardHeader className="flex flex-row items-center gap-2">
@@ -253,6 +329,7 @@ export default function ReportsIndex({ reports }: Props) {
                                 <CardTitle>User Growth</CardTitle>
                                 <CardDescription>Last 6 months registrations</CardDescription>
                             </div>
+<<<<<<< HEAD
                         </CardHeader>
                         <CardContent>
                             <div className="h-[250px] w-full">
@@ -285,11 +362,38 @@ export default function ReportsIndex({ reports }: Props) {
                             <div className="h-[250px] w-full">
                                 <Bar data={registrationChartData} options={chartOptions} />
 >>>>>>> 250ff03 (feat: add sales, registration and category charts to admin reports)
+=======
+                        </CardHeader>
+                        <CardContent>
+                            <div className="h-[250px] w-full">
+                                <ChartContainer config={chartConfig.users}>
+                                    <BarChart data={registrationData} margin={{ left: 12, right: 12, top: 12, bottom: 12 }}>
+                                        <CartesianGrid vertical={false} strokeDasharray="3 3" stroke="#e2e8f0" />
+                                        <XAxis
+                                            dataKey="month"
+                                            axisLine={false}
+                                            tickLine={false}
+                                            tickMargin={8}
+                                            tickFormatter={(value) => value.split('-')[1]}
+                                        />
+                                        <YAxis hide />
+                                        <ChartTooltip content={<ChartTooltipContent />} />
+                                        <Bar
+                                            dataKey="count"
+                                            fill="var(--color-users)"
+                                            radius={[4, 4, 0, 0]}
+                                        />
+                                    </BarChart>
+                                </ChartContainer>
+>>>>>>> 3debba9 (feat: use shadcn-like charts with Recharts for admin reports)
                             </div>
                         </CardContent>
                     </Card>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3debba9 (feat: use shadcn-like charts with Recharts for admin reports)
                     {/* Category Sales Pie Chart */}
                     <Card className="lg:col-span-1">
                         <CardHeader className="flex flex-row items-center gap-2">
@@ -298,6 +402,7 @@ export default function ReportsIndex({ reports }: Props) {
                                 <CardTitle>Category Sales</CardTitle>
                                 <CardDescription>Current month revenue</CardDescription>
                             </div>
+<<<<<<< HEAD
                         </CardHeader>
                         <CardContent>
                             <div className="h-[250px] w-full">
@@ -328,16 +433,42 @@ export default function ReportsIndex({ reports }: Props) {
                             <div className="h-[250px] w-full">
                                 <Pie data={categoriesChartData} options={pieOptions} />
 >>>>>>> 250ff03 (feat: add sales, registration and category charts to admin reports)
+=======
+                        </CardHeader>
+                        <CardContent>
+                            <div className="h-[250px] w-full">
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <PieChart>
+                                        <ChartTooltip content={<ChartTooltipContent nameKey="name" formatter={formatCurrency} />} />
+                                        <Pie
+                                            data={categoryData}
+                                            dataKey="value"
+                                            nameKey="name"
+                                            innerRadius={60}
+                                            outerRadius={80}
+                                            strokeWidth={5}
+                                        >
+                                            {categoryData.map((entry, index) => (
+                                                <Cell key={`cell-${index}`} fill={entry.fill} />
+                                            ))}
+                                        </Pie>
+                                    </PieChart>
+                                </ResponsiveContainer>
+>>>>>>> 3debba9 (feat: use shadcn-like charts with Recharts for admin reports)
                             </div>
                         </CardContent>
                     </Card>
                 </div>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
                 {/* Data Tables Section remains the same */}
 =======
                 {/* Data Tables Section */}
 >>>>>>> 250ff03 (feat: add sales, registration and category charts to admin reports)
+=======
+                {/* Data Tables Section remains the same */}
+>>>>>>> 3debba9 (feat: use shadcn-like charts with Recharts for admin reports)
                 <div className="grid gap-6 md:grid-cols-2">
                     <Card>
                         <CardHeader className="flex flex-row items-center gap-2">
@@ -364,10 +495,14 @@ export default function ReportsIndex({ reports }: Props) {
                                             <TableRow key={trend.month}>
                                                 <TableCell>{trend.month}</TableCell>
 <<<<<<< HEAD
+<<<<<<< HEAD
                                                 <TableCell className="text-right font-medium">KES {Number(trend.total).toLocaleString()}</TableCell>
 =======
                                                 <TableCell className="text-right font-medium">KES {trend.total.toLocaleString()}</TableCell>
 >>>>>>> 250ff03 (feat: add sales, registration and category charts to admin reports)
+=======
+                                                <TableCell className="text-right font-medium">KES {Number(trend.total).toLocaleString()}</TableCell>
+>>>>>>> 3debba9 (feat: use shadcn-like charts with Recharts for admin reports)
                                             </TableRow>
                                         ))
                                     )}

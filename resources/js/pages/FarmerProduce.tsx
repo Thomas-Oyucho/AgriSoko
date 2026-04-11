@@ -1,6 +1,5 @@
 import { Head, Link, usePage } from '@inertiajs/react';
 import { router } from '@inertiajs/react';
-import { showSwalConfirm } from '@/lib/swal';
 import { Button } from '@/components/ui/button';
 import {
     Table,
@@ -11,6 +10,7 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
+import { showSwalConfirm } from '@/lib/swal';
 import type { Produce } from '@/types/produce';
 
 export default function FarmerProduce() {

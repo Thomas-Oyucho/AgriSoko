@@ -1,5 +1,5 @@
 import { Link, usePage } from '@inertiajs/react';
-import { Folder, LayoutGrid, ShoppingCart, MessageSquare, ShoppingBag } from 'lucide-react';
+import { Folder, LayoutGrid, ShoppingCart, ShoppingBag } from 'lucide-react';
 
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';

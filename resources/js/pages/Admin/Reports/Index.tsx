@@ -31,17 +31,16 @@ interface RegistrationGrowth {
     count: number;
 }
 
-interface PopularCategory {
-    id: number;
+interface CategorySale {
     category_name: string;
-    produce_count: number;
+    total_revenue: number;
 }
 
 interface Props {
     reports: {
         salesTrends: SalesTrend[];
         registrationGrowth: RegistrationGrowth[];
-        popularCategories: PopularCategory[];
+        categorySales: CategorySale[];
     };
 }
 
@@ -51,7 +50,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function ReportsIndex({ reports }: Props) {
-    // Sales Trend Data
+    // Sales Trend Data (6 Months Line Chart)
     const salesChartData = {
         labels: reports.salesTrends.map((t) => t.month),
         datasets: [
@@ -67,7 +66,7 @@ export default function ReportsIndex({ reports }: Props) {
         ],
     };
 
-    // Registration Growth Data
+    // Registration Growth Data (6 Months Bar Chart)
     const registrationChartData = {
         labels: reports.registrationGrowth.map((g) => g.month),
         datasets: [
@@ -80,18 +79,20 @@ export default function ReportsIndex({ reports }: Props) {
         ],
     };
 
-    // Popular Categories Data
+    // Category Sales Data (Current Month Pie Chart)
     const categoriesChartData = {
-        labels: reports.popularCategories.map((c) => c.category_name),
+        labels: reports.categorySales.map((c) => c.category_name),
         datasets: [
             {
-                data: reports.popularCategories.map((c) => c.produce_count),
+                data: reports.categorySales.map((c) => c.total_revenue),
                 backgroundColor: [
                     '#10b981', // emerald-500
-                    '#059669', // emerald-600
-                    '#047857', // emerald-700
-                    '#065f46', // emerald-800
-                    '#064e3b', // emerald-900
+                    '#3b82f6', // blue-500
+                    '#f59e0b', // amber-500
+                    '#ef4444', // red-500
+                    '#8b5cf6', // violet-500
+                    '#ec4899', // pink-500
+                    '#06b6d4', // cyan-500
                 ],
                 borderWidth: 1,
             },
@@ -128,6 +129,20 @@ export default function ReportsIndex({ reports }: Props) {
             legend: {
                 position: 'bottom' as const,
             },
+            tooltip: {
+                callbacks: {
+                    label: function (context) {
+                        let label = context.label || '';
+                        if (label) {
+                            label += ': ';
+                        }
+                        if (context.parsed !== null) {
+                            label += new Intl.NumberFormat('en-KE', { style: 'currency', currency: 'KES' }).format(context.parsed);
+                        }
+                        return label;
+                    }
+                }
+            }
         },
     };
 
@@ -140,7 +155,7 @@ export default function ReportsIndex({ reports }: Props) {
                     <Card className="lg:col-span-1">
                         <CardHeader className="flex flex-row items-center gap-2">
                             <LineChartIcon className="h-5 w-5 text-emerald-600" />
-                            <CardTitle>Sales Trend</CardTitle>
+                            <CardTitle>Sales Trend (6 Months)</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <div className="h-[250px] w-full">
@@ -152,7 +167,7 @@ export default function ReportsIndex({ reports }: Props) {
                     <Card className="lg:col-span-1">
                         <CardHeader className="flex flex-row items-center gap-2">
                             <BarChart3 className="h-5 w-5 text-emerald-600" />
-                            <CardTitle>User Growth</CardTitle>
+                            <CardTitle>User Growth (6 Months)</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <div className="h-[250px] w-full">
@@ -164,7 +179,7 @@ export default function ReportsIndex({ reports }: Props) {
                     <Card className="lg:col-span-1">
                         <CardHeader className="flex flex-row items-center gap-2">
                             <PieChartIcon className="h-5 w-5 text-emerald-600" />
-                            <CardTitle>Popular Categories</CardTitle>
+                            <CardTitle>Category Sales (Current Month)</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <div className="h-[250px] w-full">
@@ -245,18 +260,18 @@ export default function ReportsIndex({ reports }: Props) {
                     <Card className="md:col-span-2">
                         <CardHeader className="flex flex-row items-center gap-2">
                             <Tag className="h-5 w-5 text-emerald-600" />
-                            <CardTitle>Most Popular Categories Details</CardTitle>
+                            <CardTitle>Category Sales Details (Current Month)</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-                                {reports.popularCategories.length === 0 ? (
-                                    <div className="col-span-full py-8 text-center text-muted-foreground">No category data available.</div>
+                                {reports.categorySales.length === 0 ? (
+                                    <div className="col-span-full py-8 text-center text-muted-foreground">No category sales data for current month.</div>
                                 ) : (
-                                    reports.popularCategories.map((category) => (
-                                        <div key={category.id} className="flex flex-col items-center p-4 rounded-xl border border-border bg-card">
-                                            <span className="text-lg font-bold text-emerald-600">{category.produce_count}</span>
-                                            <span className="text-sm font-medium text-center">{category.category_name}</span>
-                                            <span className="text-xs text-muted-foreground">Products</span>
+                                    reports.categorySales.map((sale) => (
+                                        <div key={sale.category_name} className="flex flex-col items-center p-4 rounded-xl border border-border bg-card">
+                                            <span className="text-lg font-bold text-emerald-600">KES {sale.total_revenue.toLocaleString()}</span>
+                                            <span className="text-sm font-medium text-center">{sale.category_name}</span>
+                                            <span className="text-xs text-muted-foreground">Revenue</span>
                                         </div>
                                     ))
                                 )}

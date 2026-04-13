@@ -104,14 +104,14 @@ function useNavItems() {
         // });
     }
 
-    // if (auth?.user && !auth?.user?.is_admin) {
-    //     items.push({
-    //         title: 'Messages',
-    //         href: '/messages',
-    //         icon: MessageSquare,
-    //         badge: auth.user.unread_count > 0 ? auth.user.unread_count.toString() : undefined,
-    //     });
-    // }
+    if (auth?.user && !auth?.user?.is_admin) {
+        items.push({
+            title: 'Messages',
+            href: '/messages',
+            icon: MessageSquare,
+            badge: auth.user.unread_count > 0 ? auth.user.unread_count.toString() : undefined,
+        });
+    }
 
     return items;
 }

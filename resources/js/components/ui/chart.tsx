@@ -16,7 +16,7 @@ export const ChartContainer = ({
   className?: string
 }) => {
   return (
-    <div className={cn("flex flex-col gap-4", className)}>
+    <div className={cn("flex h-full w-full flex-col gap-4", className)}>
       <style>
         {Object.entries(config)
           .map(([key, value]) => {

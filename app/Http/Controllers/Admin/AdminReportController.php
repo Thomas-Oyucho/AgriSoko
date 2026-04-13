@@ -17,8 +17,14 @@ class AdminReportController extends Controller
         $sixMonthsAgo = Carbon::now()->subMonths(6);
         $startOfCurrentMonth = Carbon::now()->startOfMonth();
 
+        // Generate all last 6 months
+        $allMonths = [];
+        for ($i = 5; $i >= 0; $i--) {
+            $allMonths[] = Carbon::now()->subMonths($i)->format('Y-m');
+        }
+
         // Sales trends (last 6 months)
-        $salesTrends = Order::where('status', 'paid')
+        $salesData = Order::where('status', 'paid')
             ->where('created_at', '>=', $sixMonthsAgo)
             ->select(
                 DB::raw('sum(total_price) as total'),
@@ -26,17 +32,35 @@ class AdminReportController extends Controller
             )
             ->groupBy('month')
             ->orderBy('month', 'asc')
-            ->get();
+            ->get()
+            ->keyBy('month');
+
+        // Fill in missing months with 0
+        $salesTrends = collect($allMonths)->map(function ($month) use ($salesData) {
+            return [
+                'month' => $month,
+                'total' => $salesData->get($month)?->total ?? 0,
+            ];
+        });
 
         // User registration growth (last 6 months)
-        $registrationGrowth = User::where('created_at', '>=', $sixMonthsAgo)
+        $registrationData = User::where('created_at', '>=', $sixMonthsAgo)
             ->select(
                 DB::raw('count(*) as count'),
                 DB::raw("DATE_FORMAT(created_at, '%Y-%m') as month")
             )
             ->groupBy('month')
             ->orderBy('month', 'asc')
-            ->get();
+            ->get()
+            ->keyBy('month');
+
+        // Fill in missing months with 0
+        $registrationGrowth = collect($allMonths)->map(function ($month) use ($registrationData) {
+            return [
+                'month' => $month,
+                'count' => $registrationData->get($month)?->count ?? 0,
+            ];
+        });
 
         // Sales Summary by Category (Current Month)
         $categorySales = ProduceCategory::select(

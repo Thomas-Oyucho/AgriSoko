@@ -41,6 +41,9 @@ class AdminReportController extends Controller
             ->groupBy('month')
             ->orderBy('month', 'asc')
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d12f859 (Refactor sidebar navigation items and update chart container styles)
             ->get()
             ->keyBy('month');
 
@@ -54,12 +57,15 @@ class AdminReportController extends Controller
 
         // User registration growth (last 6 months)
         $registrationData = User::where('created_at', '>=', $sixMonthsAgo)
+<<<<<<< HEAD
 =======
             ->get();
 
         // User registration growth (last 12 months)
         $registrationGrowth = User::where('created_at', '>=', $oneYearAgo)
 >>>>>>> 250ff03 (feat: add sales, registration and category charts to admin reports)
+=======
+>>>>>>> d12f859 (Refactor sidebar navigation items and update chart container styles)
             ->select(
                 DB::raw('count(*) as count'),
                 DB::raw("DATE_FORMAT(created_at, '%Y-%m') as month")

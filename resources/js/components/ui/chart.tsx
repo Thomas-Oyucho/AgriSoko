@@ -17,10 +17,14 @@ export const ChartContainer = ({
 }) => {
   return (
 <<<<<<< HEAD
+<<<<<<< HEAD
     <div className={cn("flex h-full w-full flex-col gap-4", className)}>
 =======
     <div className={cn("flex flex-col gap-4", className)}>
 >>>>>>> 3debba9 (feat: use shadcn-like charts with Recharts for admin reports)
+=======
+    <div className={cn("flex h-full w-full flex-col gap-4", className)}>
+>>>>>>> d12f859 (Refactor sidebar navigation items and update chart container styles)
       <style>
         {Object.entries(config)
           .map(([key, value]) => {

@@ -229,7 +229,7 @@ export default function FarmerProduceForm({
 
                     {/* Row 3: Description */}
                     <div className="grid gap-2">
-                        <Label htmlFor="description">Description *</Label>
+                        <Label htmlFor="description"> Description *</Label>
                         <Textarea
                             id="description"
                             className="min-h-[120px]"
